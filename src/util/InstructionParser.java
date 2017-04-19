@@ -16,7 +16,8 @@ public class InstructionParser {
 
 	
 	/* METHODS */
-	public String[] parseString(String s){
+	public String[] parseStrings(String s, int lineNumber) throws IncorrectInstructionSyntax{
+	
 		this.result = new String[3];
 		Pattern pattern = Pattern.compile(InstructionParser.REGEX);
 		Matcher matcher = pattern.matcher(s);
@@ -25,7 +26,7 @@ public class InstructionParser {
 			for(int i = 0; i < 3; i++)
 				this.result[i] = matcher.group(i+1);
 		else
-			this.result = null;
+			throw IncorrectInstructionSyntax(lineNumber);
 
 		return this.result;
 	}
