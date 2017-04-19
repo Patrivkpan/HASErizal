@@ -13,3 +13,8 @@
   2. Put .java files inside the src folder, class files and media files(txt, png, jpeg, etc.) in the bin folder.
   3. Use tabs not spaces.
   4. Don't write past the 80th column. Most text editors can mark the 80th column from the preferences option.
+
+## TODO
+  [ ] LOAD, ADD, SUB, CMP
+  [ ] FDEMW
+  [ ] Registers
