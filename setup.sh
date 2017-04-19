@@ -7,3 +7,5 @@ echo "Compilation done! Running main program..."
 java -classpath bin Main
 
 echo "Main program is done executing!"
+
+sleep 10

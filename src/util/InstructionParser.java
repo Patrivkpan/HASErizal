@@ -2,6 +2,7 @@ package util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * Parses instructions. Singleton design implementation.
  */
@@ -16,7 +17,7 @@ public class InstructionParser {
 
 	
 	/* METHODS */
-	public String[] parseStrings(String s, int lineNumber) throws IncorrectInstructionSyntax{
+	public String[] parseString(String s, int lineNumber) throws InstructionSyntaxException{
 	
 		this.result = new String[3];
 		Pattern pattern = Pattern.compile(InstructionParser.REGEX);
@@ -26,7 +27,7 @@ public class InstructionParser {
 			for(int i = 0; i < 3; i++)
 				this.result[i] = matcher.group(i+1);
 		else
-			throw IncorrectInstructionSyntax(lineNumber);
+			throw new InstructionSyntaxException(lineNumber);
 
 		return this.result;
 	}
