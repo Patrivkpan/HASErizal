@@ -4,41 +4,56 @@ package process;
 public class Fetch implements Runnable{
 
 	private static Fetch instance;
+	private Thread tInstance;
 	private String instructions[][];
 	
 	private Fetch(){}
 
 	public void run(){
-		//get pc value
-		int pc = 0;
+		//get pc
 
 		System.out.println("Current instruction: " + this.instructions[pc][0]);
 		System.out.println("Operands: " + this.instructions[pc][1] + " "
 							+ this.instructions[pc][2]);
-		
+
+		//update table
+
+		try{
+			Thread.sleep(1000);
+		} catch (Exception e) {}
+
 	}
 
-	public boolean start(){
-		if(instructions == null)
-			return false;
+	/*
+		Starts thread, returns -1 if there are no instructions, 0 if thread ran
+		normally, 1 if thread is still running
+	*/
+	public int start(){
+		if (this.instructions == null)
+			return -1;
 
-		(new Thread(this)).start();
-		return true;
+		if (this.tInstance == null || !this.tInstance.isAlive()){
+			this.tInstance = new Thread(this);
+			this.tInstance.start();
+			return 0;			
+		}
+
+		return 1;
 	}
 
 	public static Fetch getInstance(){
-		if(instance == null)
-			instance = new Fetch();
+		if(Fetch.instance == null)
+			Fetch.instance = new Fetch();
 
-		return instance;
+		return Fetch.instance;
 	}
 
 	public static Fetch getInstance(String instructions[][]){
-		if(instance == null)
-			instance = new Fetch();
+		if(Fetch.instance == null)
+			Fetch.instance = new Fetch();
 
-		instance.setInstructions(instructions);
-		return instance;
+		Fetch.instance.setInstructions(instructions);
+		return Fetch.instance;
 	}
 
 	public void setInstructions(String instructions[][]){

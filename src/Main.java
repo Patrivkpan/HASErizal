@@ -30,8 +30,7 @@ public class Main {
 		}
 
 		Fetch f = Fetch.getInstance(instructions.toArray(new String[0][]));
-		if(!f.start())
-			System.out.println("Instructions not found.");
+		Thread fThread = f.start();
 	}
 
 }
