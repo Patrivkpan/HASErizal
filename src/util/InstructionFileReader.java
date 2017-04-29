@@ -33,8 +33,10 @@ public class InstructionFileReader{
 			return;
 		}
 
+		/* set lines */
 		String lines[] = textData.toArray(new String[0]);
 
+		/* Parses instructions per line */
 		InstructionParser ip = InstructionParser.getInstance();	
 		ArrayList<String[]> instructions = new ArrayList<String[]>(); 	
 
@@ -52,7 +54,8 @@ public class InstructionFileReader{
 
 			instructions.add(line);
 		}
-		InstructionMemory.getInstance().setInstructions(instructions.toArray(new String[0][0]));
+		InstructionMemory memory = InstructionMemory.getInstance();
+		memory.setInstructions(instructions.toArray(new String[0][0]));
 	}
 
 	/* GETTERS AND SETTERS */
