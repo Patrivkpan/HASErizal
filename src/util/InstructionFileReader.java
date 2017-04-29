@@ -1,4 +1,5 @@
 package util;
+
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -9,16 +10,14 @@ import java.io.BufferedReader;
 public class InstructionFileReader{
 	/* ATTRIBUTES */
 	private static InstructionFileReader instance;
-	private String path;
 	
 	/* CONSTRUCTOR */
-	private InstructionFileReader(String file_path){
-		path = file_path;
-	}
+	private InstructionFileReader(){}
 
 	/* METHODS */
-	public String[] readFile(){
+	public void readFile(String path){
 		ArrayList<String> textData = null;
+		/* loads file */
 		try{
 			FileReader fr = new FileReader(path);
 			BufferedReader br = new BufferedReader(fr);
@@ -29,29 +28,39 @@ public class InstructionFileReader{
 				textData.add(s);
 			br.close();
 			
-		} catch(Exception e) {System.out.println("File not found");};
+		} catch(Exception e) {
+			System.out.println("File not found");
+			return;
+		}
 
-		return textData.toArray(new String[0]);
+		String lines[] = textData.toArray(new String[0]);
+
+		InstructionParser ip = InstructionParser.getInstance();	
+		ArrayList<String[]> instructions = new ArrayList<String[]>(); 	
+
+		for(int i = 0; i < lines.length; i++){
+			String line[];
+			try {
+				line = ip.parseString(lines[i], i);
+			} catch(InstructionSyntaxException iis) {
+				System.out.println(iis.getMessage());
+				return;
+			}
+			for(String t : line)
+					System.out.print("| " + t + " |");
+			System.out.println();
+
+			instructions.add(line);
+		}
+		InstructionMemory.getInstance().setInstructions(instructions.toArray(new String[0][0]));
 	}
 
 	/* GETTERS AND SETTERS */
 	public static InstructionFileReader getInstance(){
 		if(InstructionFileReader.instance == null) 
-			InstructionFileReader.instance = new InstructionFileReader("");
+			InstructionFileReader.instance = new InstructionFileReader();
 		
 		return InstructionFileReader.instance;
 	}
 	
-	public static InstructionFileReader getInstance(String file_path){
-		if(InstructionFileReader.instance == null) 
-			InstructionFileReader.instance = new InstructionFileReader(file_path);
-		
-		else InstructionFileReader.instance.setPath(file_path);
-		
-		return InstructionFileReader.instance;
-	}
-	
-	public void setPath(String path){
-		this.path = path;
-	}
 }

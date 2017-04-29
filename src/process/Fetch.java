@@ -35,16 +35,4 @@ public class Fetch extends Thread{
 		return Fetch.instance;
 	}
 
-	public static Fetch getInstance(String instructions[][]){
-		if(Fetch.instance == null)
-			Fetch.instance = new Fetch();
-
-		Fetch.instance.setInstructions(instructions);
-		return Fetch.instance;
-	}
-
-	public void setInstructions(String instructions[][]){
-		this.instructions = instructions;
-	}
-
 }

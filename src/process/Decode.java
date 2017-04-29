@@ -1,11 +1,12 @@
 package process;
 
 public class Decode extends Thread{
-	private static instance;
+	private static Decode instance;
 	private String instruction[];
 
 	private Decode(){}
 
+	@Override
 	public void run(){
 		//do decoding stuff here
 	}
