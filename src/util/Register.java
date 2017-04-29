@@ -1,7 +1,8 @@
-import java.util.Hashmap;
+package util;
+import java.util.HashMap;
 
-public class Register(){
-    private static Hashmap<String, Register> registers;
+public class Register{
+    private static HashMap<String, Register> registers;
 
     private String name;
     private int value;
@@ -11,30 +12,30 @@ public class Register(){
     }
 
     /* Gets a specific register, returns null if register with that name doesn't exist' */
-    private static Register getRegister(String name){
-        if(Registers.registers == null)
-            Registers.registerInit();
+    public static Register getRegister(String name){
+        if(Register.registers == null)
+            Register.registerInit();
 
-        return Registers.registers.get(name);
+        return Register.registers.get(name);
     }
 
     /* Initializes registers */
     private static void registerInit(){
-        Register.registers = new Hashmap<String, Register>();
+        Register.registers = new HashMap<String, Register>();
         /* Special registers */
 
-        Register.registers.add("PC", new Register("PC", 0));
-        Register.registers.add("OF", new Register("OF", 0));
-        Register.registers.add("NF", new Register("NF", 0));
-        Register.registers.add("ZF", new Register("ZF", 0));
-        Register.registers.add("MAR", new Register("MAR", 0));
-        Register.registers.add("MBR", new Register("MBR", 0));
+        Register.registers.put("PC", new Register("PC", 0));
+        Register.registers.put("OF", new Register("OF", 0));
+        Register.registers.put("NF", new Register("NF", 0));
+        Register.registers.put("ZF", new Register("ZF", 0));
+        Register.registers.put("MAR", new Register("MAR", 0));
+        Register.registers.put("MBR", new Register("MBR", 0));
 
         /* Ordinary registers */
         String name;
         for(int i = 1; i != 33; i++){
             name = "R" + i;
-            Register.registers.add(name, new Register(name, 0));
+            Register.registers.put(name, new Register(name, 0));
         }
 
     }
@@ -50,9 +51,12 @@ public class Register(){
 
     public void setValue(int value){
         if(this.name == "OF" || this.name == "NF" || this.name == "ZF")
-        this.value = value;
+            this.value = (this.value > 0)? 1: 0;
+        else
+            this.value = value;
     }
 
+    /* throws exception if register is not a flag */
     public void switchFlag() throws NotAFlagException{
         if(this.name != "OF" || this.name != "NF" || this.name != "ZF")
             throw new NotAFlagException(this.name);

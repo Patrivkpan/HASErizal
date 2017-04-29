@@ -1,7 +1,7 @@
 package process;
+import util.Register;
 
-
-public class Fetch implements Runnable{
+public class Fetch extends Thread{
 
 	private static Fetch instance;
 	private Thread tInstance;
@@ -9,36 +9,23 @@ public class Fetch implements Runnable{
 	
 	private Fetch(){}
 
+	@Override
 	public void run(){
-		//get pc
+		Register pc = Register.getRegister("PC");
+		Register mar = Register.getRegister("MAR");
 
-		System.out.println("Current instruction: " + this.instructions[pc][0]);
-		System.out.println("Operands: " + this.instructions[pc][1] + " "
-							+ this.instructions[pc][2]);
+		mar.setValue(pc.getValue());
+		pc.setValue(pc.getValue() + 1);
 
+		//catch possible errors(overflow/underflow)
+		String[] IR = this.instructions[mar.getValue()];
 		//update table
 
+		
 		try{
 			Thread.sleep(1000);
 		} catch (Exception e) {}
 
-	}
-
-	/*
-		Starts thread, returns -1 if there are no instructions, 0 if thread ran
-		normally, 1 if thread is still running
-	*/
-	public int start(){
-		if (this.instructions == null)
-			return -1;
-
-		if (this.tInstance == null || !this.tInstance.isAlive()){
-			this.tInstance = new Thread(this);
-			this.tInstance.start();
-			return 0;			
-		}
-
-		return 1;
 	}
 
 	public static Fetch getInstance(){

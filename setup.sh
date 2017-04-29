@@ -8,4 +8,6 @@ java -classpath bin Main
 
 echo "Main program is done executing!"
 
-sleep 10
+echo "Press enter to continue..."
+
+read dummy

@@ -29,8 +29,6 @@ public class Main {
 			instructions.add(line);
 		}
 
-		Fetch f = Fetch.getInstance(instructions.toArray(new String[0][]));
-		Thread fThread = f.start();
 	}
 
 }
