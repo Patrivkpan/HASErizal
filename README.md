@@ -17,4 +17,3 @@
 ## TODO
   [ ] Decode ( LOAD, ADD, SUB, CMP )
   [ ] FDEMW
-  [ ] Registers
