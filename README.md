@@ -15,6 +15,6 @@
   4. Don't write past the 80th column. Most text editors can mark the 80th column from the preferences option.
 
 ## TODO
-  [ ] LOAD, ADD, SUB, CMP
+  [ ] Decode ( LOAD, ADD, SUB, CMP )
   [ ] FDEMW
   [ ] Registers
