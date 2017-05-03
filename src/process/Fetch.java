@@ -1,31 +1,36 @@
 package process;
 import util.Register;
+import util.InstructionMemory;
 
-public class Fetch extends Thread implements Runnable{
+public class Fetch implements Runnable{
 
 	private static Fetch instance;
 	private Thread tInstance;
-	private String instructions[][];
+	private InstructionMemory memory;
+	private Decode decode;
+	private Register pc, mar;
 	
-	private Fetch(){}
+	private Fetch(){
+		this.memory = InstructionMemory.getInstance();
+		this.decode = Decode.getInstance();
+
+		this.pc = Register.getRegister("PC");
+		this.mar = Register.getRegister("MAR");
+	}
 
 	@Override
 	public void run(){
-		Register pc = Register.getRegister("PC");
-		Register mar = Register.getRegister("MAR");
+		String instruction[];
 
-		mar.setValue(pc.getValue());
-		pc.setValue(pc.getValue() + 1);
+		if(decode.isBusy()) return;
+		this.mar.setValue(pc.getValue());
+		this.pc.setValue(pc.getValue() + 1);
 
 		//catch possible errors(overflow/underflow)
-		String[] IR = this.instructions[mar.getValue()];
+		instruction = this.memory.getInstruction(pc.getValue());
 		//update table
-
+		this.decode.setInstruction(instruction);
 		
-		try{
-			Thread.sleep(1000);
-		} catch (Exception e) {}
-
 	}
 
 	public void start(){
@@ -42,6 +47,4 @@ public class Fetch extends Thread implements Runnable{
 		return Fetch.instance;
 	}
 	
-	
-
 }
