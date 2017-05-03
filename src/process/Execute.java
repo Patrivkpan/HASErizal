@@ -3,16 +3,21 @@ import util.Register;
 
 public class Execute implements Runnable{
 	private static Execute instance;
+	private Thread tInstance;
 	private Operation operation;
 	private int op1, op2, pc;
 	private Register dest;
 	
-	private Execute(){}
+	private Execute(){
+		this.operation = Operation.NULL;
+	}
 
 	public void run(){
 		double answer;
 
 		switch(this.operation){
+			case NULL:
+				break;
 			case ADD:
 				answer = op1 + op2;
 				break;
@@ -33,7 +38,6 @@ public class Execute implements Runnable{
 				break;
 			default:
 				System.out.println("Invalid instruction.");
-				System.exit(0);	
 		}
 		
 	}

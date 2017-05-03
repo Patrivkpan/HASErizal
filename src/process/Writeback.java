@@ -11,7 +11,9 @@ public class Writeback implements Runnable{
 	
 	@Override
 	public void run(){
+		if(this.dest == null) return;
 		this.dest.setValue(this.value);
+		this.dest = null;
 	}
 
 	public void start(){

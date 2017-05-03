@@ -15,8 +15,9 @@ public class Decode implements Runnable{
 	@Override
 	public void run(){
 		//do decoding stuff here
-	
+		if(this.instruction == null) return;	
 
+		System.out.println(this.instruction[0]);
 		// Hazard checking
 		dest=Register.getRegister(instruction[1]);
 		src=Register.getRegister(instruction[2]);
@@ -27,14 +28,14 @@ public class Decode implements Runnable{
 				System.out.println("WAR Hazard");
 			}
 		}
-		if (src.getBusy()) {
+		if (src != null && src.getBusy()) {
 			firstUseOfSrcRegister=src.getOperand();
 			if(firstUseOfSrcRegister=="dest"){
 				System.out.println("RAW Hazard");
 			}
 		}
 
-		//do later=
+		this.instruction = null;
 	}
 
 	public void start(){

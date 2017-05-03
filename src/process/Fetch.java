@@ -22,7 +22,7 @@ public class Fetch implements Runnable{
 	public void run(){
 		String instruction[];
 
-		if(decode.isBusy()) return;
+		//if(decode.isBusy()) return;
 		this.mar.setValue(pc.getValue());
 		this.pc.setValue(pc.getValue() + 1);
 
