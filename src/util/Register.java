@@ -54,7 +54,8 @@ public class Register{
 
     public void setValue(int value){
 		if(value < -99 || value > 99) 
-			System.out.println("Throw error here");
+          System.out.println("Throw error here");
+
     	this.value = value;
     }
 
