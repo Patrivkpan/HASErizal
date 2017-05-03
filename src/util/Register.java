@@ -7,6 +7,7 @@ public class Register{
     private String name;
     private int value;
     private boolean isBusy;
+    private String operand;
 
     private Register(String name, int value){
         this.name = name;
@@ -52,15 +53,29 @@ public class Register{
         return this.value;
     }
 
-    public void setValue(int value){
-		if(value > 99){
-			Register.getRegister("OF").setValue(1);
+
+    public boolean getBusy(){
+        return this.isBusy;
+    }
+
+    public String getOperand(){
+        return this.operand;
+    }
+
+    public void setValue(int value){		
+        if(value > 99){
+            Register.getRegister("OF").setValue(1);
             this.value = 99;
-    	} else if(value < - 99){
+        } else if(value < - 99){
             Register.getRegister("OF").setValue(1);
             this.value = -99;
         } else{
             this.value = value;
         }
     }
+
+    public void setOperand(String value){
+        this.operand=value;
+    }
+
 }
