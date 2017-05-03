@@ -7,17 +7,20 @@ public class Decode implements Runnable{
 	private static Decode instance;
 	private Thread tInstance;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
-	private Register dest,src;
+	private Register dest, src, pc;
+	private Execute execute;
 	private String firstUseOfDestRegister, firstUseOfSrcRegister;
 
-	private Decode(){}
+	private Decode(){
+		this.execute = Execute.getInstance();
+		this.pc = Fetch.getPC();
+	}
 
 	@Override
 	public void run(){
 		//do decoding stuff here
 		if(this.instruction == null) return;	
 
-		System.out.println(this.instruction[0]);
 		// Hazard checking
 		dest=Register.getRegister(instruction[1]);
 		src=Register.getRegister(instruction[2]);
@@ -34,6 +37,12 @@ public class Decode implements Runnable{
 				System.out.println("RAW Hazard");
 			}
 		}
+		dest.setOperand("dest");
+		src.setOperand("src");
+		dest.setBusy(true);
+		src.setBusy(true);
+		//do stall here
+		this.execute.setDestOperands(dest, dest.getValue(), src.getValue());
 
 		this.instruction = null;
 	}
@@ -58,5 +67,10 @@ public class Decode implements Runnable{
 
 	public void setInstruction(String instruction[]){
 		this.instruction = instruction;
+	}
+
+	public void setFree(){
+		dest.setBusy(false);
+		src.setBusy(false);
 	}
 }

@@ -22,7 +22,7 @@ public class Fetch implements Runnable{
 	public void run(){
 		String instruction[];
 
-		//if(decode.isBusy()) return;
+		// if(decode.isBusy()) return;
 		this.mar.setValue(pc.getValue());
 		this.pc.setValue(pc.getValue() + 1);
 
@@ -42,6 +42,10 @@ public class Fetch implements Runnable{
 
 	public Thread getThreadInstance(){
 		return this.tInstance;
+	}
+
+	public static Register getPC(){
+		return this.pc;
 	}
 	
 	public static Fetch getInstance(){

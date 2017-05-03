@@ -5,11 +5,13 @@ public class Execute implements Runnable{
 	private static Execute instance;
 	private Thread tInstance;
 	private Operation operation;
-	private int op1, op2, pc;
+	private int op1, op2;
 	private Register dest;
+	private Memory memory;
 	
 	private Execute(){
 		this.operation = Operation.NULL;
+		this.memory = Memory.getInstance();
 	}
 
 	public void run(){
@@ -39,7 +41,7 @@ public class Execute implements Runnable{
 			default:
 				System.out.println("Invalid instruction.");
 		}
-		
+		this.memory.setDestValue(dest, answer);
 	}
 
 	public void start(){		

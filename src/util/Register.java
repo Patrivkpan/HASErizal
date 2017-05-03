@@ -78,4 +78,8 @@ public class Register{
         this.operand=value;
     }
 
+    public void setBusy(boolean value){
+        this.isBusy = value;
+    }
+
 }
