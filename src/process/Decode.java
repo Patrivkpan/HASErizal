@@ -9,6 +9,7 @@ public class Decode extends Thread{
 	@Override
 	public void run(){
 		//do decoding stuff here
+		
 	}
 
 	public static Decode getInstance(){

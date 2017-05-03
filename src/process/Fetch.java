@@ -1,7 +1,7 @@
 package process;
 import util.Register;
 
-public class Fetch extends Thread{
+public class Fetch implements Runnable{
 
 	private static Fetch instance;
 	private Thread tInstance;
@@ -28,11 +28,20 @@ public class Fetch extends Thread{
 
 	}
 
+	public void start(){
+		if(this.tInstance == null || !this.tInstance.isAlive())
+			this.tInstance = new Thread(this);
+			
+		this.tInstance.start();
+	}
+	
 	public static Fetch getInstance(){
 		if(Fetch.instance == null)
 			Fetch.instance = new Fetch();
 
 		return Fetch.instance;
 	}
+	
+	
 
 }

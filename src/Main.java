@@ -13,8 +13,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		InstructionFileReader.getInstance().readFile("bin/ins.txt");
-
-		
 	}
 
 }

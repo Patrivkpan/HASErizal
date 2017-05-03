@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  */
 public class InstructionParser {
 	/* ATTRIBUTES */
-	private static final String REGEX = "(LOAD|ADD|SUB|CMP) (R\\d+),\\s*((R\\d+)|\\d+)\\s*";
+	private static final String REGEX = "^(LOAD|ADD|SUB|CMP) (R\\d+),\\s*((R\\d+)|\\d+)\\s*";
 	private static InstructionParser instance;
 	private String[] result;
 

@@ -6,9 +6,12 @@ public class Register{
 
     private String name;
     private int value;
+    private boolean isBusy;
+
     private Register(String name, int value){
         this.name = name;
         this.value = value;
+        this.isBusy = false;
     }
 
     /* Gets a specific register, returns null if register with that name doesn't exist' */
@@ -33,7 +36,7 @@ public class Register{
 
         /* Ordinary registers */
         String name;
-        for(int i = 1; i != 33; i++){
+        for(int i = 1; i < 33; i++){
             name = "R" + i;
             Register.registers.put(name, new Register(name, 0));
         }
@@ -50,18 +53,9 @@ public class Register{
     }
 
     public void setValue(int value){
-        if(this.name == "OF" || this.name == "NF" || this.name == "ZF")
-            this.value = (this.value > 0)? 1: 0;
-        else
-            this.value = value;
-    }
-
-    /* throws exception if register is not a flag */
-    public void switchFlag() throws NotAFlagException{
-        if(this.name != "OF" || this.name != "NF" || this.name != "ZF")
-            throw new NotAFlagException(this.name);
-
-        this.value = (this.value == 1)? 0 : 1;
+		if(value < -99 || value > 99) 
+			System.out.println("Throw error here");
+    	this.value = value;
     }
 
 }
