@@ -9,8 +9,8 @@ public class Writeback implements Runnable{
 	private Decode decode;
 	
 	private Writeback(){
-		this.decode = Decode.setFree();
-		this.pc = Fetch.getPC();
+		decode.setFree();
+//		this.pc = Fetch.getPC();
 	}
 	
 	@Override

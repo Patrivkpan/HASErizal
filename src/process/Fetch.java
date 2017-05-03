@@ -44,8 +44,8 @@ public class Fetch implements Runnable{
 		return this.tInstance;
 	}
 
-	public static Register getPC(){
-		return this.pc;
+	public int getPC(){
+		return this.pc.getValue();
 	}
 	
 	public static Fetch getInstance(){

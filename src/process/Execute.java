@@ -7,14 +7,15 @@ public class Execute implements Runnable{
 	private int op1, op2, pc;
 	private Register dest;
 	private Memory memory;
+	private Thread tInstance;
 	
 	private Execute(){
-		this.memory = Memory.getInstance();
-		this.pc = Fetch.getPC();
+		this.memory = memory.getInstance();
+//		this.pc = Fetch.getPC();
 	}
 
 	public void run(){
-		double answer;
+		double answer=0d;
 
 		switch(this.operation){
 			case ADD:
@@ -39,7 +40,8 @@ public class Execute implements Runnable{
 				System.out.println("Invalid instruction.");
 				System.exit(0);	
 		}
-		this.memory.setDestValue(dest, answer);
+		int ans = (int)answer;
+		this.memory.setDestValue(dest, ans);
 	}
 
 	public void start(){		

@@ -7,13 +7,14 @@ public class Decode implements Runnable{
 	private static Decode instance;
 	private Thread tInstance;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
-	private Register dest, src, pc;
+	private Register dest, src;
+	private int pc;
 	private Execute execute;
 	private String firstUseOfDestRegister, firstUseOfSrcRegister;
 
 	private Decode(){
 		this.execute = Execute.getInstance();
-		this.pc = Fetch.getPC();
+//		this.pc = Fetch.getPC();
 	}
 
 	@Override
