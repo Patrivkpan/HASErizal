@@ -53,20 +53,15 @@ public class Register{
     }
 
     public void setValue(int value){
-<<<<<<< HEAD
-		if(value < -99 || value > 99){
-			System.out.println("Throw error here");
-			if(Register.name == "OF"){
-				Register.value = 1;
-			}
-    	}
-		this.value = value;
-=======
-		if(value < -99 || value > 99) 
-          System.out.println("Throw error here");
-
-    	this.value = value;
->>>>>>> 11b7c86844fea741119a7fb98487f4bfe7a407a9
+		if(value > 99){
+			Register.getRegister("OF").setValue(1);
+            this.value = 99;
+    	} else if(value < - 99){
+            Register.getRegister("OF").setValue(1);
+            this.value = -99;
+        } else{
+            this.value = value;
+        }
     }
 
 }
