@@ -7,8 +7,8 @@ public class Clock extends Thread{
     private static Clock instance;
 
     private Thread processes[] = {  
-                            Fetch.getInstance(),
-                            Decode.getInstance()/*,
+                            Fetch.getInstance().getThreadInstance(),
+                            Decode.getInstance().getThreadInstance()/*,
                             Execute.getInstace(),
                             Memory.getInstance(),
                             WriteBack.getInstance()*/

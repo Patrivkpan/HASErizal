@@ -1,7 +1,8 @@
 package process;
 
-public class Decode extends Thread{
+public class Decode implements Runnable{
 	private static Decode instance;
+	private Thread tInstance;
 	private String instruction[];
 
 	private Decode(){}
@@ -13,12 +14,17 @@ public class Decode extends Thread{
 	}
 
 	public static Decode getInstance(){
-		if(Decode.instance == null) Decode.instance = new Decode();
+		if(Decode.instance == null) 
+			Decode.instance = new Decode();
 
 		return Decode.instance;
 	}
 
+	public Thread getThreadInstance(){
+		return this.tInstance;
+	}
+
 	public void setInstruction(String instruction[]){
-		this.instruction = instruction;;
+		this.instruction = instruction;
 	}
 }

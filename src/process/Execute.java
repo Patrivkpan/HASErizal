@@ -1,30 +1,29 @@
 package process;
-
+import util.Register;
 
 public class Execute implements Runnable{
-
 	private static Execute instance;
 	private Operation operation;
-	private Register dest, src;
-
+	private int op1, op2, pc;
+	private Register dest;
 	
 	private Execute(){}
 
 	public void run(){
 		double answer;
 
-		switch(this.instruction){
+		switch(this.operation){
 			case ADD:
-				answer = dest.getValue() + src.getValue();
+				answer = op1 + op2;
 				break;
 			case SUB:
-				answer = dest.getValue() - src.getValue();
+				answer = op1 - op2;
 				break;
 			case LD:
-				answer = src.getValue();
+				answer = op1;
 				break;
 			case CMP:
-				answer = dest.getValue() - src.getValue();
+				answer = op1 - op2;
 				if(answer == 0){
 					Register.getRegister("ZF").setValue(1);
 				} 
@@ -36,33 +35,30 @@ public class Execute implements Runnable{
 				System.out.println("Invalid instruction.");
 				System.exit(0);	
 		}
-		System.out.println("Current instruction: " + this.instructions[pc][0]);
-		System.out.println("Operands: " + this.instructions[pc][1] + " "
-							+ this.instructions[pc][2]);
 		
 	}
 
-	public boolean start(String operation, Register dest, Register src)	{		
-		(new Thread(this)).start();
-		return true;
+	public void start(){		
+		if(this.tInstance == null || !this.tInstance.isAlive())
+			this.tInstance = new Thread(this);
+
+		this.tInstance.start();
+	}
+
+	public void setDestOperands(Register dest, int op1, int op2){
+		this.dest = dest;
+		this.op1 = op1;
+		this.op2 = op2;
+    }
+
+	public Thread getThreadInstance(){
+		return this.tInstance;
 	}
 
 	public static Execute getInstance(){
-		if(instance == null)
-			instance = new Execute();
+		if(Execute.instance == null)
+			Execute.instance = new Execute();
 
-		return instance;
-	}
-
-	public static Execute getInstance(String instructions[][]){
-		if(instance == null)
-			instance = new Execute();
-
-		instance.setInstructions(instructions);
-		return instance;
-	}
-
-	public void setInstructions(String instructions[][]){
-		this.instructions = instructions;
+		return Execute.instance;
 	}
 }

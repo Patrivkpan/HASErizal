@@ -39,6 +39,10 @@ public class Fetch implements Runnable{
 			
 		this.tInstance.start();
 	}
+
+	public Thread getThreadInstance(){
+		return this.tInstance;
+	}
 	
 	public static Fetch getInstance(){
 		if(Fetch.instance == null)
