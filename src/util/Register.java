@@ -7,6 +7,7 @@ public class Register{
     private String name;
     private int value;
     private boolean isBusy;
+    private String operand;
 
     private Register(String name, int value){
         this.name = name;
@@ -52,8 +53,16 @@ public class Register{
         return this.value;
     }
 
+
+    public boolean getBusy(){
+        return this.isBusy;
+    }
+
+    public boolean getOperand(){
+        return this.operand;
+    }
+
     public void setValue(int value){
-<<<<<<< HEAD
 		if(value < -99 || value > 99){
 			System.out.println("Throw error here");
 			if(Register.name == "OF"){
@@ -61,12 +70,10 @@ public class Register{
 			}
     	}
 		this.value = value;
-=======
-		if(value < -99 || value > 99) 
-          System.out.println("Throw error here");
+    }
 
-    	this.value = value;
->>>>>>> 11b7c86844fea741119a7fb98487f4bfe7a407a9
+    public void setOperand(String value){
+        this.operand=value;
     }
 
 }
