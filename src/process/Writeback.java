@@ -6,8 +6,12 @@ public class Writeback implements Runnable{
 	private Thread tInstance;
 	private int value, pc;
 	private Register dest;
+	private Decode decode;
 	
-	private Writeback(){}
+	private Writeback(){
+		this.decode = Decode.setFree();
+		this.pc = Fetch.getPC();
+	}
 	
 	@Override
 	public void run(){

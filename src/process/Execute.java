@@ -6,8 +6,12 @@ public class Execute implements Runnable{
 	private Operation operation;
 	private int op1, op2, pc;
 	private Register dest;
+	private Memory memory;
 	
-	private Execute(){}
+	private Execute(){
+		this.memory = Memory.getInstance();
+		this.pc = Fetch.getPC();
+	}
 
 	public void run(){
 		double answer;
@@ -35,7 +39,7 @@ public class Execute implements Runnable{
 				System.out.println("Invalid instruction.");
 				System.exit(0);	
 		}
-		
+		this.memory.setDestValue(dest, answer);
 	}
 
 	public void start(){		

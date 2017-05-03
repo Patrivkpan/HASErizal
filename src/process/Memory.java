@@ -6,15 +6,20 @@ public class Memory implements Runnable{
 	private Thread tInstance;
 	private int value, pc;
 	private Register dest;
+	private Writeback writeback;
 	
-	
-	private Memory(){}
+	private Memory(){
+		this.writeback = Writeback.getInstance();
+		this.pc = Fetch.getPC();
+	}
 	
 	@Override
 	public void run(){
 		try{
 			Thread.sleep(1000);
 		} catch (Exception e) {}
+
+		this.memory.setDestValue(dest, answer);
 	}
 
 	public void start(){
