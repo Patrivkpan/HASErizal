@@ -12,7 +12,7 @@ public class Clock extends Thread{
                             Execute.getInstace(),
                             Memory.getInstance(),
                             WriteBack.getInstance()*/
-        };;
+        };
     private int cycle;
 
     private Clock(int cycle){

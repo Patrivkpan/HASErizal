@@ -1,7 +1,7 @@
 package process;
 import util.Register;
 
-public class Fetch implements Runnable{
+public class Fetch extends Thread implements Runnable{
 
 	private static Fetch instance;
 	private Thread tInstance;
