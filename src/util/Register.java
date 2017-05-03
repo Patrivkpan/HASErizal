@@ -58,7 +58,7 @@ public class Register{
         return this.isBusy;
     }
 
-    public boolean getOperand(){
+    public String getOperand(){
         return this.operand;
     }
 
