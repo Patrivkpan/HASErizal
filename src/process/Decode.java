@@ -7,13 +7,14 @@ public class Decode implements Runnable{
 	private static Decode instance;
 	private Thread tInstance;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
-	private Register dest, src, pc;
+	private Register dest, src;
+	private int pc, immediate;
 	private Execute execute;
 	private String firstUseOfDestRegister, firstUseOfSrcRegister;
 
 	private Decode(){
 		this.execute = Execute.getInstance();
-		this.pc = Fetch.getPC();
+		// this.pc = Fetch.getPC();
 	}
 
 	@Override
@@ -38,11 +39,16 @@ public class Decode implements Runnable{
 			}
 		}
 		dest.setOperand("dest");
-		src.setOperand("src");
 		dest.setBusy(true);
-		src.setBusy(true);
+		if(src == null){
+			this.execute.setDestOperands(dest, dest.getValue(), Integer.parseInt(instruction[2]));
+		}
+		else{
+			src.setOperand("src");
+			src.setBusy(true);
+			this.execute.setDestOperands(dest, dest.getValue(), src.getValue());
+		}
 		//do stall here
-		this.execute.setDestOperands(dest, dest.getValue(), src.getValue());
 
 		this.instruction = null;
 	}
@@ -67,10 +73,5 @@ public class Decode implements Runnable{
 
 	public void setInstruction(String instruction[]){
 		this.instruction = instruction;
-	}
-
-	public void setFree(){
-		dest.setBusy(false);
-		src.setBusy(false);
 	}
 }

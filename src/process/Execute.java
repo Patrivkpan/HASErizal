@@ -15,7 +15,7 @@ public class Execute implements Runnable{
 	}
 
 	public void run(){
-		double answer;
+		double answer = 0d;
 
 		switch(this.operation){
 			case NULL:
@@ -41,7 +41,8 @@ public class Execute implements Runnable{
 			default:
 				System.out.println("Invalid instruction.");
 		}
-		this.memory.setDestValue(dest, answer);
+		int ans = (int)answer;
+		this.memory.setDestValue(dest, ans);
 	}
 
 	public void start(){		

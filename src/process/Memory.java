@@ -10,7 +10,7 @@ public class Memory implements Runnable{
 	
 	private Memory(){
 		this.writeback = Writeback.getInstance();
-		this.pc = Fetch.getPC();
+		// this.pc = Fetch.getPC();
 	}
 	
 	@Override
@@ -19,7 +19,7 @@ public class Memory implements Runnable{
 			Thread.sleep(1000);
 		} catch (Exception e) {}
 
-		this.memory.setDestValue(dest, answer);
+		this.instance.setDestValue(dest, value);
 	}
 
 	public void start(){

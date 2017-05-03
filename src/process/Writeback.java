@@ -6,11 +6,9 @@ public class Writeback implements Runnable{
 	private Thread tInstance;
 	private int value, pc;
 	private Register dest;
-	private Decode decode;
 	
 	private Writeback(){
-		this.decode = Decode.setFree();
-		this.pc = Fetch.getPC();
+//		this.pc = Fetch.getPC();
 	}
 	
 	@Override
@@ -18,6 +16,11 @@ public class Writeback implements Runnable{
 		if(this.dest == null) return;
 		this.dest.setValue(this.value);
 		this.dest = null;
+	}	
+
+	public void setFree(){
+		this.dest.setBusy(false);
+		// src.setBusy(false);
 	}
 
 	public void start(){
