@@ -62,14 +62,16 @@ public class Register{
         return this.operand;
     }
 
-    public void setValue(int value){
-		if(value < -99 || value > 99){
-			System.out.println("Throw error here");
-			if(Register.name == "OF"){
-				Register.value = 1;
-			}
-    	}
-		this.value = value;
+    public void setValue(int value){		
+        if(value > 99){
+            Register.getRegister("OF").setValue(1);
+            this.value = 99;
+        } else if(value < - 99){
+            Register.getRegister("OF").setValue(1);
+            this.value = -99;
+        } else{
+            this.value = value;
+        }
     }
 
     public void setOperand(String value){
