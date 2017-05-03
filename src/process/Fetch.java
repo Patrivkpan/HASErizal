@@ -29,7 +29,7 @@ public class Fetch implements Runnable{
 		//catch possible errors(overflow/underflow)
 		instruction = this.memory.getInstruction(pc.getValue());
 		//update table
-		this.decode.setInstruction(instruction);
+		this.decode.setInstruction(instruction, pc.getValue());
 		
 	}
 
@@ -44,9 +44,6 @@ public class Fetch implements Runnable{
 		return this.tInstance;
 	}
 
-	public static Register getPC(){
-		return this.pc;
-	}
 	
 	public static Fetch getInstance(){
 		if(Fetch.instance == null)
