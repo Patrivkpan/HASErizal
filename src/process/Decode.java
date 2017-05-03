@@ -1,5 +1,5 @@
+import util.Register
 package process;
-import util.Register;
 
 public class Decode extends Thread{
 	
@@ -43,6 +43,6 @@ public class Decode extends Thread{
 	}
 
 	public void setInstruction(String instruction[]){
-		this.instruction = instruction;
+		this.instruction = instruction;;
 	}
 }
