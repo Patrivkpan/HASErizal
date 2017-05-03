@@ -27,7 +27,7 @@ public class Fetch implements Runnable{
 		this.pc.setValue(pc.getValue() + 1);
 
 		//catch possible errors(overflow/underflow)
-		instruction = this.memory.getInstruction(pc.getValue());
+		instruction = this.memory.getInstruction(mar.getValue());
 		//update table
 		this.decode.setInstruction(instruction);
 		
