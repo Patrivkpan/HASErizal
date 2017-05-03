@@ -8,13 +8,20 @@ public class Decode implements Runnable{
 	private Thread tInstance;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
 	private Register dest, src;
+<<<<<<< HEAD
 	private int pc, immediate;
+=======
+>>>>>>> 443fce9ee792de8d5955075ac17d7364b0dec3b4
 	private Execute execute;
 	private String firstUseOfDestRegister, firstUseOfSrcRegister;
+	private int pc;
 
 	private Decode(){
 		this.execute = Execute.getInstance();
+<<<<<<< HEAD
 		// this.pc = Fetch.getPC();
+=======
+>>>>>>> 443fce9ee792de8d5955075ac17d7364b0dec3b4
 	}
 
 	@Override
@@ -23,8 +30,8 @@ public class Decode implements Runnable{
 		if(this.instruction == null) return;	
 
 		// Hazard checking
-		dest=Register.getRegister(instruction[1]);
-		src=Register.getRegister(instruction[2]);
+		dest = 	Register.getRegister(instruction[1]);
+		src  =  Register.getRegister(instruction[2]);
 
 		if (dest.getBusy()) {
 			firstUseOfDestRegister=dest.getOperand();
@@ -40,15 +47,38 @@ public class Decode implements Runnable{
 		}
 		dest.setOperand("dest");
 		dest.setBusy(true);
-		if(src == null){
-			this.execute.setDestOperands(dest, dest.getValue(), Integer.parseInt(instruction[2]));
-		}
-		else{
+		
+		if(src != null){
 			src.setOperand("src");
 			src.setBusy(true);
-			this.execute.setDestOperands(dest, dest.getValue(), src.getValue());
 		}
+
 		//do stall here
+		Operation op;
+		switch(instruction[0]){
+			case "ADD":
+				op = Operation.ADD; 
+				break;
+			case "SUB":
+				op = Operation.SUB; 
+				break;
+			case "LOAD":
+				op = Operation.LD; 
+				break;
+			case "CMP":
+				op = Operation.CMP; 
+				break;
+			default:
+				op = Operation.NULL;
+		}
+		int srcVal;
+		if(src == null )
+			srcVal = Integer.parseInt(instruction[2]);
+		else
+			srcVal = src.getValue();
+
+		this.execute.setDestOperands(op, dest, dest.getValue(), 
+			srcVal, this.pc);
 
 		this.instruction = null;
 	}
@@ -71,7 +101,8 @@ public class Decode implements Runnable{
 		return this.tInstance;
 	}
 
-	public void setInstruction(String instruction[]){
+	public void setInstruction(String instruction[], int pc){
 		this.instruction = instruction;
+		this.pc = pc;
 	}
 }

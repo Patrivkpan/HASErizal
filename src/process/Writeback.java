@@ -7,9 +7,7 @@ public class Writeback implements Runnable{
 	private int value, pc;
 	private Register dest;
 	
-	private Writeback(){
-//		this.pc = Fetch.getPC();
-	}
+	private Writeback(){}
 	
 	@Override
 	public void run(){
@@ -34,10 +32,15 @@ public class Writeback implements Runnable{
 		return this.tInstance;
 	}
 
+	public int getPc(){
+		return this.pc;
+	}
+
 	/* Sets destination and value*/
-	public void setDestValue(Register dest, int value){
+	public void setDestValue(Register dest, int value, int pc){
 		this.dest = dest;
 		this.value = value;
+		this.pc = pc;
 	}
 
 	public static Writeback getInstance(){

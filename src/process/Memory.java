@@ -4,13 +4,12 @@ import util.Register;
 public class Memory implements Runnable{
 	private static Memory instance;
 	private Thread tInstance;
-	private int value, pc;
+	private int answer, pc;
 	private Register dest;
 	private Writeback writeback;
 	
 	private Memory(){
 		this.writeback = Writeback.getInstance();
-		// this.pc = Fetch.getPC();
 	}
 	
 	@Override
@@ -18,8 +17,7 @@ public class Memory implements Runnable{
 		try{
 			Thread.sleep(1000);
 		} catch (Exception e) {}
-
-		this.instance.setDestValue(dest, value);
+		this.writeback.setDestValue(dest, answer, pc);
 	}
 
 	public void start(){
@@ -33,9 +31,10 @@ public class Memory implements Runnable{
 		return this.tInstance;
 	}
 
-	public void setDestValue(Register dest, int value){
+	public void setDestValue(Register dest, int answer, int pc){
 		this.dest = dest;
-		this.value = value;
+		this.answer = answer;
+		this.pc = pc;
 	}
 
 	public static Memory getInstance(){
