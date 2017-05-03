@@ -5,7 +5,8 @@ public class Execute implements Runnable{
 
 	private static Execute instance;
 	private Operation operation;
-	private Register dest, src;
+	private Register dest;
+	private int op1, op2;
 
 	
 	private Execute(){}
@@ -13,18 +14,18 @@ public class Execute implements Runnable{
 	public void run(){
 		double answer;
 
-		switch(this.instruction){
+		switch(this.operation){
 			case ADD:
-				answer = dest.getValue() + src.getValue();
+				answer = op1 + op2;
 				break;
 			case SUB:
-				answer = dest.getValue() - src.getValue();
+				answer = op1 - op2;
 				break;
 			case LD:
-				answer = src.getValue();
+				answer = op1;
 				break;
 			case CMP:
-				answer = dest.getValue() - src.getValue();
+				answer = op1 - op2;
 				if(answer == 0){
 					Register.getRegister("ZF").setValue(1);
 				} 
@@ -36,13 +37,10 @@ public class Execute implements Runnable{
 				System.out.println("Invalid instruction.");
 				System.exit(0);	
 		}
-		System.out.println("Current instruction: " + this.instructions[pc][0]);
-		System.out.println("Operands: " + this.instructions[pc][1] + " "
-							+ this.instructions[pc][2]);
 		
 	}
 
-	public boolean start(String operation, Register dest, Register src)	{		
+	public boolean start(){		
 		(new Thread(this)).start();
 		return true;
 	}
@@ -54,15 +52,16 @@ public class Execute implements Runnable{
 		return instance;
 	}
 
-	public static Execute getInstance(String instructions[][]){
+	public static Execute getInstance(){
 		if(instance == null)
 			instance = new Execute();
 
-		instance.setInstructions(instructions);
 		return instance;
 	}
 
-	public void setInstructions(String instructions[][]){
-		this.instructions = instructions;
-	}
+	public void setOperands(int op1, int op2){
+		this.op1 = op1;
+		this.op2 = op2;
+    }
+
 }
