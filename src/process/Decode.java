@@ -1,5 +1,6 @@
-import util.Register
 package process;
+import util.Register;
+
 
 public class Decode extends Thread{
 	
@@ -18,7 +19,6 @@ public class Decode extends Thread{
 		// Hazard checking
 		dest=Register.getRegister(instruction[1]);
 		src=Register.getRegister(instruction[2]);
-		firstUseOfOP2=dest.getOperand();
 
 		if (dest.getBusy()) {
 			firstUseOfDestRegister=dest.getOperand();
@@ -43,6 +43,6 @@ public class Decode extends Thread{
 	}
 
 	public void setInstruction(String instruction[]){
-		this.instruction = instruction;;
+		this.instruction = instruction;
 	}
 }
