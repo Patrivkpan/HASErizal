@@ -8,20 +8,12 @@ public class Decode implements Runnable{
 	private Thread tInstance;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
 	private Register dest, src;
-<<<<<<< HEAD
-	private int pc, immediate;
-=======
->>>>>>> 443fce9ee792de8d5955075ac17d7364b0dec3b4
 	private Execute execute;
 	private String firstUseOfDestRegister, firstUseOfSrcRegister;
 	private int pc;
 
 	private Decode(){
 		this.execute = Execute.getInstance();
-<<<<<<< HEAD
-		// this.pc = Fetch.getPC();
-=======
->>>>>>> 443fce9ee792de8d5955075ac17d7364b0dec3b4
 	}
 
 	@Override
