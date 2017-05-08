@@ -5,48 +5,57 @@ public class Execute implements Runnable{
 	private static Execute instance;
 	private Thread tInstance;
 	private Operation operation;
-	private int op1, op2, pc;
+	private int op1, op2, pc, ans;
 	private Register dest;
 	private Memory memory;
+	private boolean ready;
 	
 	private Execute(){
 		this.operation = Operation.NULL;
 		this.memory = Memory.getInstance();
+		this.ready = false;
 	}
 
 	public void run(){
-		int answer = 0;
+		this.ans = 0;
 
+		if(this.operation == Operation.NULL) return;
+		System.out.println("Executing " + pc);
 		switch(this.operation){
 			case NULL:
 				break;
 			case ADD:
-				answer = op1 + op2;
+				this.ans = op1 + op2;
 				break;
 			case SUB:
-				answer = op1 - op2;
+				this.ans = op1 - op2;
 				break;
 			case LD:
-				answer = op1;
+				this.ans = op1;
 				break;
 			case CMP:
-				answer = op1 - op2;
-				if(answer == 0){
+				this.ans = op1 - op2;
+				if(this.ans == 0){
 					Register.getRegister("ZF").setValue(1);
 				} 
-				if(answer < 0){
+				if(this.ans < 0){
 					Register.getRegister("NF").setValue(1);
 				}
 				break;
 			default:
 				System.out.println("Invalid instruction.");
 		}
-		this.memory.setDestValue(dest, answer, this.pc);
+		this.ready = true;
+		this.operation = Operation.NULL;
 	}
 
 	public void start(){		
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
+		if(this.ready){
+			this.memory.setDestValue(this.dest, this.ans, this.pc);
+			this.ready = false;
+		}
 
 		this.tInstance.start();
 	}

@@ -9,6 +9,7 @@ public class Fetch implements Runnable{
 	private InstructionMemory memory;
 	private Decode decode;
 	private Register pc, mar;
+	private String instruction[];
 	
 	private Fetch(){
 		this.memory = InstructionMemory.getInstance();
@@ -20,24 +21,27 @@ public class Fetch implements Runnable{
 
 	@Override
 	public void run(){
-		String instruction[];
-
-		// if(decode.isBusy()) return;
 		this.mar.setValue(pc.getValue());
 		this.pc.setValue(pc.getValue() + 1);
 
-		//catch possible errors(overflow/underflow)
-		instruction = this.memory.getInstruction(pc.getValue());
-		//update table
-		this.decode.setInstruction(instruction, pc.getValue());
+		this.instruction = this.memory.getInstruction(mar.getValue());
+		System.out.println("Fetching " + mar.getValue());
 		
 	}
 
 	public void start(){
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
-			
+
+		if(this.decode.isStalling())
+			return;
+
+		this.decode.setInstruction(instruction, mar.getValue());
 		this.tInstance.start();
+	}
+
+	public void setNext(){
+		this.decode.setInstruction(this.instruction, mar.getValue());		
 	}
 
 	public Thread getThreadInstance(){
@@ -51,5 +55,5 @@ public class Fetch implements Runnable{
 
 		return Fetch.instance;
 	}
-	
+
 }

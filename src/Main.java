@@ -25,17 +25,20 @@ public class Main {
 		Writeback w = Writeback.getInstance();
 
 
-		for(int i = 0; i < 5; i++){
-			f.start();
-			d.start();
-			e.start();
-			m.start();
+		for(int i = 0; i < 10; i++){
+			
 			w.start();
-
+			m.start();
+			e.start();
+			d.start();
+			f.start();
+			
 			c.start();
 			try{
 				c.getThreadInstance().join();
 			}catch(Exception ex){}
+
+			System.out.println("===========================\n");
 		}
 		
 	}

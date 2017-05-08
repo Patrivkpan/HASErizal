@@ -12,7 +12,10 @@ public class Writeback implements Runnable{
 	@Override
 	public void run(){
 		if(this.dest == null) return;
+
+		System.out.println("Writing " + pc);
 		this.dest.setValue(this.value);
+		this.dest.setBusy(false);
 		this.dest = null;
 	}
 
