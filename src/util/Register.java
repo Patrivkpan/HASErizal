@@ -27,7 +27,6 @@ public class Register{
     private static void registerInit(){
         Register.registers = new HashMap<String, Register>();
         /* Special registers */
-
         Register.registers.put("PC", new Register("PC", 0));
         Register.registers.put("OF", new Register("OF", 0));
         Register.registers.put("NF", new Register("NF", 0));
@@ -52,7 +51,6 @@ public class Register{
     public int getValue(){
         return this.value;
     }
-
 
     public boolean getBusy(){
         return this.isBusy;

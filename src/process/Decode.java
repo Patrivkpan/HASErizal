@@ -18,7 +18,6 @@ public class Decode implements Runnable{
 
 	@Override
 	public void run(){
-		//do decoding stuff here
 		if(this.instruction == null) return;	
 
 		// Hazard checking
@@ -26,14 +25,12 @@ public class Decode implements Runnable{
 		src  =  Register.getRegister(instruction[2]);
 
 		if (dest.getBusy()) {
-			// System.out.println("A Dest: " + instruction[1] + " Src: " + instruction[2]);
 			firstUseOfDestRegister=dest.getOperand();
 			if(firstUseOfDestRegister=="src"){
 				System.out.println("WAR Hazard");
 			}
 		}
 		if (src != null && src.getBusy()) {
-			// System.out.println("B Dest: " + instruction[1] + " Src: " + instruction[2]);
 			firstUseOfSrcRegister=src.getOperand();
 			if(firstUseOfSrcRegister=="dest"){
 				System.out.println("RAW Hazard");
@@ -47,7 +44,7 @@ public class Decode implements Runnable{
 			src.setBusy(true);
 		}
 
-		//do stall here
+		//stall
 		Operation op;
 		switch(instruction[0]){
 			case "ADD":

@@ -50,5 +50,8 @@ public class Fetch implements Runnable{
 
 		return Fetch.instance;
 	}
+
+		return this.mar;
+	}
 	
 }
