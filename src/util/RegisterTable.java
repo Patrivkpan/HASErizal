@@ -9,8 +9,8 @@ public class RegisterTable{
 	private String instruction[];
 	private Register dest = Register.getRegister(instruction[1]);
 	private Register src = Register.getRegister(instruction[2]);
+	private Register mar = Fetch.getMAR();
 	private int pc = Writeback.getPc();
-	private Register mar = Register.getMAR();
 	String name;
 
 	public void printRegister(){

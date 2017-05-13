@@ -56,7 +56,7 @@ public class Clock implements Runnable{
 		return this.tInstance;
 	}
 
-    public int getCycle(){
+    public static int getCycle(){
         return this.cycle;
     }
 

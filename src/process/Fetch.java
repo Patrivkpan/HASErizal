@@ -51,6 +51,7 @@ public class Fetch implements Runnable{
 		return Fetch.instance;
 	}
 
+	public static Register getMAR(){
 		return this.mar;
 	}
 	

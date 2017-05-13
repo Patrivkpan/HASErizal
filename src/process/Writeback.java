@@ -1,5 +1,6 @@
 package process;
 import util.Register;
+import util.RegisterTable;
 
 public class Writeback implements Runnable{
 	private static Writeback instance;
@@ -14,6 +15,7 @@ public class Writeback implements Runnable{
 		if(this.dest == null) return;
 		this.dest.setValue(this.value);
 		this.dest = null;
+		// RegisterTable.printRegisters();
 	}	
 
 	public void setFree(){
@@ -32,7 +34,7 @@ public class Writeback implements Runnable{
 		return this.tInstance;
 	}
 
-	public int getPc(){
+	public static int getPc(){
 		return this.pc;
 	}
 
