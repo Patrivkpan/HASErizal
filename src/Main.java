@@ -16,6 +16,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		InstructionFileReader.getInstance().readFile("bin/ins.txt");
+		int lines = InstructionMemory.getInstance().getLines();
 
 		Clock c = Clock.getInstance();
 		Fetch f = Fetch.getInstance();
@@ -23,10 +24,10 @@ public class Main {
 		Execute e = Execute.getInstance();
 		Memory m = Memory.getInstance();
 		Writeback w = Writeback.getInstance();
+		w.setLines(lines);
 
+		do{
 
-		for(int i = 0; i < 10; i++){
-			
 			w.start();
 			m.start();
 			e.start();
@@ -39,8 +40,7 @@ public class Main {
 			}catch(Exception ex){}
 
 			System.out.println("===========================\n");
-		}
-		
+		} while(!w.isDone());
 	}
 
 }

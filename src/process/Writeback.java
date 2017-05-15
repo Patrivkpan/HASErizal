@@ -4,10 +4,14 @@ import util.Register;
 public class Writeback implements Runnable{
 	private static Writeback instance;
 	private Thread tInstance;
-	private int value, pc;
+	private int value, pc, lines;
 	private Register dest;
+	private boolean done;
 	
-	private Writeback(){}
+	private Writeback(){
+		this.done = false;
+		this.pc = -1;
+	}
 	
 	@Override
 	public void run(){
@@ -17,6 +21,7 @@ public class Writeback implements Runnable{
 		this.dest.setValue(this.value);
 		this.dest.setBusy(false);
 		this.dest = null;
+		if(this.pc == lines-1) this.done = true;
 	}
 
 	public void start(){
@@ -32,6 +37,14 @@ public class Writeback implements Runnable{
 
 	public int getPc(){
 		return this.pc;
+	}
+
+	public boolean isDone(){
+		return this.done;
+	}
+
+	public void setLines(int lines){
+		this.lines = lines;
 	}
 
 	/* Sets destination and value*/

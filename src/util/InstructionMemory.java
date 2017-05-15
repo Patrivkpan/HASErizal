@@ -25,5 +25,7 @@ public class InstructionMemory{
         return null;
     }
 
-
+    public int getLines(){
+        return this.lines;
+    }
 }

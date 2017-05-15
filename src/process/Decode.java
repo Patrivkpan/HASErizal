@@ -98,9 +98,11 @@ public class Decode implements Runnable{
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 
-		if(this.dest != null && !this.isStalling()) 
+		if(this.dest != null && !this.isStalling()) {
 			this.execute.setDestOperands(this.op, this.dest, this.dest.getValue(), 
 											this.srcVal, this.pc);
+			this.dest = null;
+		}
 		this.tInstance.start();
 	}
 

@@ -10,6 +10,7 @@ public class Fetch implements Runnable{
 	private Decode decode;
 	private Register pc, mar;
 	private String instruction[];
+	private boolean end;
 	
 	private Fetch(){
 		this.memory = InstructionMemory.getInstance();
@@ -17,6 +18,7 @@ public class Fetch implements Runnable{
 
 		this.pc = Register.getRegister("PC");
 		this.mar = Register.getRegister("MAR");
+		this.end = false;
 	}
 
 	@Override
@@ -25,6 +27,8 @@ public class Fetch implements Runnable{
 		this.pc.setValue(pc.getValue() + 1);
 
 		this.instruction = this.memory.getInstruction(mar.getValue());
+		if(this.instruction == null)
+			this.end = true;
 		System.out.println("Fetching " + mar.getValue());
 		
 	}
@@ -33,7 +37,7 @@ public class Fetch implements Runnable{
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 
-		if(this.decode.isStalling())
+		if(this.decode.isStalling() || this.end)
 			return;
 
 		this.decode.setInstruction(instruction, mar.getValue());
