@@ -15,7 +15,6 @@ public class Memory implements Runnable{
 	
 	@Override
 	public void run(){
-
 		if(this.dest == null) return;
 		System.out.println("Memory-ing " + pc);
 		this.writeback.setDestValue(dest, answer, pc);

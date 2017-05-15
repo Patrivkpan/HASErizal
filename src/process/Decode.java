@@ -31,11 +31,24 @@ public class Decode implements Runnable{
 		this.dest = 	Register.getRegister(instruction[1]);
 		this.src  =  Register.getRegister(instruction[2]);
 
-		this.stalling = this.checkHazard(dest, src);
 
 		if(this.stalling){
 			System.out.println("Decode stall " + pc);	
 			return;
+		}
+		if (dest.getBusy()) {
+			// System.out.println("A Dest: " + instruction[1] + " Src: " + instruction[2]);
+			firstUseOfDestRegister=dest.getOperand();
+			if(firstUseOfDestRegister=="src"){
+				System.out.println("WAR Hazard");
+			}
+		}
+		if (src != null && src.getBusy()) {
+			// System.out.println("B Dest: " + instruction[1] + " Src: " + instruction[2]);
+			firstUseOfSrcRegister=src.getOperand();
+			if(firstUseOfSrcRegister=="dest"){
+				System.out.println("RAW Hazard");
+			}
 		}
 
 		System.out.println("Decoding " + pc);
@@ -124,10 +137,5 @@ public class Decode implements Runnable{
 	public void setInstruction(String instruction[], int pc){
 		this.instruction = instruction;
 		this.pc = pc;
-	}
-
-	public void setFree(){
-		dest.setBusy(false);
-		src.setBusy(false);
 	}
 }

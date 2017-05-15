@@ -21,7 +21,15 @@ public class Writeback implements Runnable{
 		this.dest.setValue(this.value);
 		this.dest.setBusy(false);
 		this.dest = null;
+<<<<<<< HEAD
 		if(this.pc == lines-1) this.done = true;
+=======
+	}	
+
+	public void setFree(){
+		this.dest.setBusy(false);
+		// src.setBusy(false);
+>>>>>>> bbd4d7d3f1c8d27347f8bfa31133dd14a898b6f2
 	}
 
 	public void start(){

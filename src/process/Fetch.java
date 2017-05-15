@@ -30,7 +30,6 @@ public class Fetch implements Runnable{
 		if(this.instruction == null)
 			this.end = true;
 		System.out.println("Fetching " + mar.getValue());
-		
 	}
 
 	public void start(){
@@ -51,7 +50,6 @@ public class Fetch implements Runnable{
 	public Thread getThreadInstance(){
 		return this.tInstance;
 	}
-
 	
 	public static Fetch getInstance(){
 		if(Fetch.instance == null)
