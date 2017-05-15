@@ -31,7 +31,7 @@ public class Execute implements Runnable{
 				this.ans = op1 - op2;
 				break;
 			case LD:
-				this.ans = op1;
+				this.ans = op2;
 				break;
 			case CMP:
 				this.ans = op1 - op2;

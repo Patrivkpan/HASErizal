@@ -11,6 +11,7 @@ import process.Decode;
 import process.Execute;
 import process.Memory;
 import process.Writeback;
+import util.RegisterTable;
 
 public class Main {
 
@@ -24,10 +25,10 @@ public class Main {
 		Execute e = Execute.getInstance();
 		Memory m = Memory.getInstance();
 		Writeback w = Writeback.getInstance();
+		RegisterTable rt = RegisterTable.getInstance();
 		w.setLines(lines);
 
 		do{
-
 			w.start();
 			m.start();
 			e.start();
@@ -35,6 +36,7 @@ public class Main {
 			f.start();
 			
 			c.start();
+			rt.printRegister();
 			try{
 				c.getThreadInstance().join();
 			}catch(Exception ex){}
