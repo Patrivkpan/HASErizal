@@ -1,4 +1,5 @@
 package process;
+import util.Clock;
 import util.Register;
 import util.InstructionMemory;
 
@@ -27,24 +28,28 @@ public class Fetch implements Runnable{
 		this.pc.setValue(pc.getValue() + 1);
 
 		this.instruction = this.memory.getInstruction(mar.getValue());
-		if(this.instruction == null)
+		if(this.instruction == null){
 			this.end = true;
+			return;
+		}
 		System.out.println("Fetching " + mar.getValue());
 	}
 
 	public void start(){
+		if(this.end)
+			return;
+
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 
-		if(this.decode.isStalling() || this.end)
-			return;
-
-		this.decode.setInstruction(instruction, mar.getValue());
 		this.tInstance.start();
 	}
 
 	public void setNext(){
-		this.decode.setInstruction(this.instruction, mar.getValue());		
+		if(this.instruction!= null){
+			this.decode.setInstruction(this.instruction, mar.getValue());
+			this.instruction = null;
+		}
 	}
 
 	public Thread getThreadInstance(){

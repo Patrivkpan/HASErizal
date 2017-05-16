@@ -29,6 +29,12 @@ public class Main {
 		w.setLines(lines);
 
 		do{
+
+			m.setNext();
+			e.setNext();
+			d.setNext();
+			f.setNext();
+
 			w.start();
 			m.start();
 			e.start();
@@ -41,8 +47,11 @@ public class Main {
 				c.getThreadInstance().join();
 			}catch(Exception ex){}
 
+
 			System.out.println("===========================\n");
 		} while(!w.isDone());
+
+		System.out.println("Stalls: " + c.getStalls());
 	}
 
 }

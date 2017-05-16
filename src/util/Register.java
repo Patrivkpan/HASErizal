@@ -63,6 +63,7 @@ public class Register{
     }
 
     public void setValue(int value){		
+        
         if(value > 99){
             Register.getRegister("OF").setValue(1);
             this.value = 99;

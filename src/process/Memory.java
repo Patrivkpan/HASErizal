@@ -1,23 +1,41 @@
 package process;
+
+import util.Clock;
 import util.Register;
+
+import java.util.ArrayDeque;
 
 public class Memory implements Runnable{
 	private static Memory instance;
 	private Thread tInstance;
+
 	private int answer, pc;
 	private Register dest, sDest;
+
+	private ArrayDeque<Integer[]> intQueue;
+	private ArrayDeque<Register> destQueue;
+	
 	private Writeback writeback;
 	private boolean ready;
 
 	private Memory(){
+		this.intQueue = new ArrayDeque<Integer[]>();
+		this.destQueue = new ArrayDeque<Register>();
 		this.writeback = Writeback.getInstance();
 	}
 	
 	@Override
 	public void run(){
-		if(this.dest == null) return;
-		System.out.println("Memory-ing " + pc);
-		this.writeback.setDestValue(dest, answer, pc);
+		if(this.destQueue.peek() == null) return;
+
+		Integer ops[] = this.intQueue.poll();
+		this.answer = ops[0];
+		this.pc = ops[1];
+
+		this.dest = this.destQueue.poll();
+
+		Clock.getInstance().addStalls(destQueue.size());
+		System.out.println("Memory-ing " + pc + " " + answer);
 
 		this.sDest = this.dest;
 		this.dest = null;
@@ -27,11 +45,14 @@ public class Memory implements Runnable{
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 		
-		if(this.ready){
-			this.writeback.setDestValue(this.sDest, this.answer, this.pc);
-			this.ready = false;
-		}
 		this.tInstance.start();
+	}
+
+	public void setNext(){
+		if(this.sDest != null){
+			this.writeback.setDestValue(this.sDest, this.answer, this.pc);
+			this.sDest = null;
+		}
 	}
 
 	public Thread getThreadInstance(){
@@ -39,9 +60,10 @@ public class Memory implements Runnable{
 	}
 
 	public void setDestValue(Register dest, int answer, int pc){
-		this.dest = dest;
-		this.answer = answer;
-		this.pc = pc;
+		Integer ops[] = {answer, pc};
+
+		this.intQueue.add(ops);
+		this.destQueue.add(dest);
 	}
 
 	public static Memory getInstance(){
