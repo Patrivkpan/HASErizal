@@ -1,6 +1,8 @@
 package process;
 import util.Register;
-
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class Decode implements Runnable{
 	
@@ -15,8 +17,9 @@ public class Decode implements Runnable{
 	
 	private boolean stalling;
 	private Operation op;
-	private int pc, srcVal;
+	private int pc, srcVal, war, raw;
 
+	private static final String FILE_TEXT = "FDEMW.txt";
 
 	private Decode(){
 		this.execute = Execute.getInstance();
@@ -28,30 +31,54 @@ public class Decode implements Runnable{
 		this.stalling = false; 
 		if(this.instruction == null) return;	
 
-		this.dest = 	Register.getRegister(instruction[1]);
-		this.src  =  Register.getRegister(instruction[2]);
+		this.dest = Register.getRegister(instruction[1]);
+		this.src  = Register.getRegister(instruction[2]);
 
 
 		if(this.stalling){
 			System.out.println("Decode stall " + pc);	
 			return;
 		}
-		if (dest.getBusy()) {
+
+		System.out.println("Decoding " + pc);
+		if (dest != null) {
 			// System.out.println("A Dest: " + instruction[1] + " Src: " + instruction[2]);
 			firstUseOfDestRegister=dest.getOperand();
 			if(firstUseOfDestRegister=="src"){
+				war++;
 				System.out.println("WAR Hazard");
+				try{
+					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+					writer.append("Total of WAR Hazard: " + war+"\n\n");
+					writer.close(); 
+				}
+				catch(IOException e) { 
+			
+				}
+				catch(Exception e) { 
+					System.out.println(e.getMessage()); 
+				}
 			}
 		}
 		if (src != null && src.getBusy()) {
 			// System.out.println("B Dest: " + instruction[1] + " Src: " + instruction[2]);
 			firstUseOfSrcRegister=src.getOperand();
 			if(firstUseOfSrcRegister=="dest"){
+				raw++;
 				System.out.println("RAW Hazard");
+				try{
+					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+					writer.append("Toatl of RAW Hazard: "+ raw+"\n\n");
+					writer.close(); 
+				}
+				catch(IOException e) { 
+			
+				}
+				catch(Exception e) { 
+					System.out.println(e.getMessage()); 
+				}
 			}
 		}
-
-		System.out.println("Decoding " + pc);
 		this.dest.setOperand("dest");
 		this.dest.setBusy(true);
 		
