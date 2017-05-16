@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 import util.InstructionSyntaxException;
 import util.InstructionFileReader;
 import util.InstructionParser;
@@ -50,8 +54,18 @@ public class Main {
 
 			System.out.println("===========================\n");
 		} while(!w.isDone());
-
 		System.out.println("Stalls: " + c.getStalls());
+		try{
+			BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+			writer.append("Total Stalls: " + c.getStalls()+"\n\n");
+			writer.close(); 
+		}
+		catch(IOException exc) { 
+	
+		}
+		catch(Exception exc) { 
+			System.out.println(exc.getMessage()); 
+		}
 	}
 
 }

@@ -34,19 +34,7 @@ public class RegisterTable{
 		}
 		catch(Exception e) { 
 			System.out.println(e.getMessage()); 
-		} 
-
-		// for(int j = 1; j < 33; j++){
-  //           name = "R" + j;
-	 //        System.out.println(Register.getRegister(name).getName() + ": " + Register.getRegister(name).getValue());
-	 //    }
-
-		// System.out.println("PC:" + Register.getRegister("PC").getValue());
-		// System.out.println("MAR:" + Register.getRegister("MAR").getValue());
-		// System.out.println("MBR:" + Register.getRegister("MBR").getValue());
-		// System.out.println("OF: " + Register.getRegister("OF").getValue());
-		// System.out.println("NF: " + Register.getRegister("NF").getValue());
-		// System.out.println("ZF: " + Register.getRegister("ZF").getValue());	    
+		} 	    
 	}
 
 	public static RegisterTable getInstance(){

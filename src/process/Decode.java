@@ -1,6 +1,9 @@
 package process;
 import util.Clock;
 import util.Register;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 import java.util.ArrayDeque;
 
@@ -20,7 +23,7 @@ public class Decode implements Runnable{
 	
 	private boolean stalling;
 	private Operation op;
-	private int pc, srcVal;
+	private int pc, srcVal, war, raw, waw;
 
 
 	private Decode(){
@@ -87,15 +90,53 @@ public class Decode implements Runnable{
 		// Hazard checking
 
 		if (dest.getBusy()) {
-			if(dest.getOperand() == "src")
+			if(dest.getOperand() == "src"){
+				war++;
 				System.out.println("WAR Hazard");
-			else
+				try{
+					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+					writer.append("Total of WAR Hazard: " + war+"\n\n");
+					writer.close(); 
+				}
+				catch(IOException e) { 
+			
+				}
+				catch(Exception e) { 
+					System.out.println(e.getMessage()); 
+				}
+			}
+			else{
+				waw++;
 				System.out.println("WAW Hazard");
+				try{
+					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+					writer.append("Total of WAW Hazard: " + waw+"\n\n");
+					writer.close(); 
+				}
+				catch(IOException e) { 
+			
+				}
+				catch(Exception e) { 
+					System.out.println(e.getMessage()); 
+				}
+			}
 			return true;
 		}
 
 		if (src != null && src.getBusy() && src.getOperand()=="dest") {
+			raw++;
 			System.out.println("RAW Hazard ");
+			try{
+				BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+				writer.append("Total of RAW Hazard: " + raw+"\n\n");
+				writer.close(); 
+			}
+			catch(IOException e) { 
+		
+			}
+			catch(Exception e) { 
+				System.out.println(e.getMessage()); 
+			}
 			return true;
 		}
 
