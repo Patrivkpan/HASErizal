@@ -32,9 +32,6 @@ public class RegisterTable{
 			writer.append("===========================\n\n");
 			writer.close(); 
 		}
-		catch(IOException e) { 
-			
-		}
 		catch(Exception e) { 
 			System.out.println(e.getMessage()); 
 		} 

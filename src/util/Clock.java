@@ -21,6 +21,12 @@ public class Clock implements Runnable{
     private Clock(int cycle){
         this.cycle = cycle;
         this.processes = new Thread[5];
+        
+        this.f = Fetch.getInstance();
+        this.d = Decode.getInstance();
+        this.e = Execute.getInstance();
+        this.m = Memory.getInstance();
+        this.w = Writeback.getInstance();
     }
 
     @Override
@@ -35,12 +41,12 @@ public class Clock implements Runnable{
 	public void start(){
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
-			
-            this.processes[0] = Fetch.getInstance().getThreadInstance();
-            this.processes[1] = Decode.getInstance().getThreadInstance();
-            this.processes[2] = Execute.getInstance().getThreadInstance();
-            this.processes[3] = Memory.getInstance().getThreadInstance();
-            this.processes[4] = Writeback.getInstance().getThreadInstance();
+        
+        this.processes[0] = this.f.getThreadInstance();
+        this.processes[1] = this.d.getThreadInstance();
+        this.processes[2] = this.e.getThreadInstance();
+        this.processes[3] = this.m.getThreadInstance();
+        this.processes[4] = this.w.getThreadInstance();
         
         this.tInstance.start();
 	}
