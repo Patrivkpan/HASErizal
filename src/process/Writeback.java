@@ -1,5 +1,8 @@
 package process;
+
+import util.Clock;
 import util.Register;
+
 import java.util.ArrayDeque;
 
 public class Writeback implements Runnable{
@@ -31,10 +34,10 @@ public class Writeback implements Runnable{
 		this.value = ops[0];
 		this.pc = ops[1];
 
+		Clock.getInstance().addStalls(destQueue.size());
 		System.out.println("Writing " + pc);
 		this.dest.setValue(this.value);
 		this.dest.setBusy(false);
-		this.dest = null;
 
 		this.of.setValue(0);
 		if(this.pc == lines-1) this.done = true;
@@ -43,6 +46,8 @@ public class Writeback implements Runnable{
 	public void start(){
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
+		if(this.dest != null)
+			this.dest.setBusy(false);
 		this.tInstance.start();
 	}
 

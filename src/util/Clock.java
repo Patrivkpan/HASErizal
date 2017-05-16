@@ -17,8 +17,10 @@ public class Clock implements Runnable{
     private Memory m;
     private Writeback w;
     private int cycle;
+    private int stalls;
 
     private Clock(int cycle){
+        this.stalls = 0;
         this.cycle = cycle;
         this.processes = new Thread[5];
         
@@ -62,8 +64,16 @@ public class Clock implements Runnable{
 		return this.tInstance;
 	}
 
+    public void addStalls(int stalls){
+        this.stalls += stalls;
+    }
+
     public int getCycle(){
         return this.cycle;
+    }
+
+    public int getStalls(){
+        return this.stalls;
     }
 
 }

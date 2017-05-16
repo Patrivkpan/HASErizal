@@ -1,5 +1,8 @@
 package process;
+
+import util.Clock;
 import util.Register;
+
 import java.util.ArrayDeque;
 
 public class Memory implements Runnable{
@@ -31,6 +34,7 @@ public class Memory implements Runnable{
 
 		this.dest = this.destQueue.poll();
 
+		Clock.getInstance().addStalls(destQueue.size());
 		System.out.println("Memory-ing " + pc + " " + answer);
 
 		this.sDest = this.dest;

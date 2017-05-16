@@ -1,5 +1,7 @@
 package process;
+import util.Clock;
 import util.Register;
+
 import java.util.ArrayDeque;
 
 public class Execute implements Runnable{
@@ -33,6 +35,8 @@ public class Execute implements Runnable{
 			return;
 		this.operation = this.opQueue.poll();
 		this.dest = this.destQueue.poll();
+
+		Clock.getInstance().addStalls(destQueue.size());
 
 		Integer operands[] = this.intQueue.poll();
 		this.op1 = operands[0];

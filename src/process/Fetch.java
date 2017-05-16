@@ -1,4 +1,5 @@
 package process;
+import util.Clock;
 import util.Register;
 import util.InstructionMemory;
 
@@ -35,11 +36,11 @@ public class Fetch implements Runnable{
 	}
 
 	public void start(){
+		if(this.end)
+			return;
+
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
-
-		if(this.decode.isStalling() || this.end)
-			return;
 
 		this.tInstance.start();
 	}

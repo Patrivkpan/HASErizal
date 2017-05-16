@@ -1,5 +1,7 @@
 package process;
+import util.Clock;
 import util.Register;
+
 import java.util.ArrayDeque;
 
 
@@ -33,13 +35,15 @@ public class Decode implements Runnable{
 	public void run(){
 		this.stalling = false; 
 		if(this.instruction == null) return;
+		Clock.getInstance().addStalls(pcQueue.size());
 
 		this.dest = 	Register.getRegister(instruction[1]);
 		this.src  =  	Register.getRegister(instruction[2]);
 
 		
 		if(this.stalling = this.checkHazard(dest, src)){
-			System.out.println("Decode stall " + pc);	
+			System.out.println("Decode stall " + pc);
+			Clock.getInstance().addStalls(1);
 			return;
 		}
 		
