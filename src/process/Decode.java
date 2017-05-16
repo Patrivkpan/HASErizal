@@ -38,7 +38,6 @@ public class Decode implements Runnable{
 		this.src  =  	Register.getRegister(instruction[2]);
 
 		
-		System.out.println(instruction[1] + " " + instruction[2]);
 		if(this.stalling = this.checkHazard(dest, src)){
 			System.out.println("Decode stall " + pc);	
 			return;

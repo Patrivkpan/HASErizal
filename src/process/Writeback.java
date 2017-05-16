@@ -1,22 +1,35 @@
 package process;
 import util.Register;
+import java.util.ArrayDeque;
 
 public class Writeback implements Runnable{
 	private static Writeback instance;
 	private Thread tInstance;
+
 	private int value, pc, lines;
 	private Register dest, of;
+
+	private ArrayDeque<Integer[]> intQueue;
+	private ArrayDeque<Register> destQueue;
+
 	private boolean done;
 	
 	private Writeback(){
 		this.done = false;
+		this.intQueue = new ArrayDeque<Integer[]>();
+		this.destQueue = new ArrayDeque<Register>();
 		this.of = Register.getRegister("OF");
 		this.pc = -1;
 	}
 	
 	@Override
 	public void run(){
-		if(this.dest == null) return;
+		if(this.destQueue.peek() == null) return;
+
+		Integer ops[] = this.intQueue.poll();
+		this.dest = this.destQueue.poll();
+		this.value = ops[0];
+		this.pc = ops[1];
 
 		System.out.println("Writing " + pc);
 		this.dest.setValue(this.value);
@@ -26,10 +39,6 @@ public class Writeback implements Runnable{
 		this.of.setValue(0);
 		if(this.pc == lines-1) this.done = true;
 	}	
-
-	public void setFree(){
-		this.dest.setBusy(false);
-	}
 
 	public void start(){
 		if(this.tInstance == null || !this.tInstance.isAlive())
@@ -55,9 +64,10 @@ public class Writeback implements Runnable{
 
 	/* Sets destination and value*/
 	public void setDestValue(Register dest, int value, int pc){
-		this.dest = dest;
-		this.value = value;
-		this.pc = pc;
+		Integer ops[] = {value, pc};
+
+		this.intQueue.add(ops);
+		this.destQueue.add(dest);
 	}
 
 	public static Writeback getInstance(){

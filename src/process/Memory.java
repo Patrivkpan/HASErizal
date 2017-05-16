@@ -31,8 +31,7 @@ public class Memory implements Runnable{
 
 		this.dest = this.destQueue.poll();
 
-		System.out.println("Memory-ing " + pc);
-		this.writeback.setDestValue(dest, answer, pc);
+		System.out.println("Memory-ing " + pc + " " + answer);
 
 		this.sDest = this.dest;
 		this.dest = null;
@@ -46,7 +45,10 @@ public class Memory implements Runnable{
 	}
 
 	public void setNext(){
-		this.writeback.setDestValue(this.sDest, this.answer, this.pc);
+		if(this.sDest != null){
+			this.writeback.setDestValue(this.sDest, this.answer, this.pc);
+			this.sDest = null;
+		}
 	}
 
 	public Thread getThreadInstance(){
