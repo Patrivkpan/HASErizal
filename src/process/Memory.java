@@ -27,11 +27,11 @@ public class Memory implements Runnable{
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 		
-		if(this.ready){
-			this.writeback.setDestValue(this.sDest, this.answer, this.pc);
-			this.ready = false;
-		}
 		this.tInstance.start();
+	}
+
+	public void setNext(){
+		this.writeback.setDestValue(this.sDest, this.answer, this.pc);
 	}
 
 	public Thread getThreadInstance(){

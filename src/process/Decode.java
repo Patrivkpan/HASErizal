@@ -23,8 +23,11 @@ public class Decode implements Runnable{
 
 
 	private Decode(){
+		this.instructionQueue = new ArrayDeque<String[]>();
+		this.pcQueue = new ArrayDeque<Integer>();
 		this.execute = Execute.getInstance();
 		this.stalling = false;
+		this.op = Operation.NULL;
 	}
 
 	@Override
@@ -33,27 +36,15 @@ public class Decode implements Runnable{
 		if(this.instruction == null) return;
 
 		this.dest = 	Register.getRegister(instruction[1]);
-		this.src  =  Register.getRegister(instruction[2]);
+		this.src  =  	Register.getRegister(instruction[2]);
 
 
 		if(this.stalling){
 			System.out.println("Decode stall " + pc);	
 			return;
 		}
-		if (dest.getBusy()) {
-			// System.out.println("A Dest: " + instruction[1] + " Src: " + instruction[2]);
-			firstUseOfDestRegister=dest.getOperand();
-			if(firstUseOfDestRegister=="src"){
-				System.out.println("WAR Hazard");
-			}
-		}
-		if (src != null && src.getBusy()) {
-			// System.out.println("B Dest: " + instruction[1] + " Src: " + instruction[2]);
-			firstUseOfSrcRegister=src.getOperand();
-			if(firstUseOfSrcRegister=="dest"){
-				System.out.println("RAW Hazard");
-			}
-		}
+		
+		this.stalling = this.checkHazard(dest, src);
 
 		System.out.println("Decoding " + pc);
 		this.dest.setOperand("dest");
@@ -94,18 +85,16 @@ public class Decode implements Runnable{
 		// Hazard checking
 
 		if (dest.getBusy()) {
-			firstUseOfDestRegister=dest.getOperand();
-			if(firstUseOfDestRegister=="src"){
+			if(dest.getOperand() == "src")
 				System.out.println("WAR Hazard");
-				return true;
-			}
+			else
+				System.out.println("WAW Hazard");
+			return true;
 		}
-		if (src != null && src.getBusy()) {
-			firstUseOfSrcRegister=src.getOperand();
-			if(firstUseOfSrcRegister=="dest"){
-				System.out.println("RAW Hazard ");
-				return true;
-			}
+
+		if (src != null && src.getBusy() && src.getOperand()=="dest") {
+			System.out.println("RAW Hazard ");
+			return true;
 		}
 
 		return false;
@@ -115,14 +104,21 @@ public class Decode implements Runnable{
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 
-		if(this.dest != null && !this.isStalling()) {
+		if(this.dest == null) {
+			this.instruction = this.instructionQueue.poll();
+			if(this.instruction != null) this.pc = this.pcQueue.poll();
+		}
+
+		this.tInstance.start();
+	}
+
+	public void setNext(){
+		if(!this.isStalling() && this.dest != null ){
 			this.execute.setDestOperands(this.op, this.dest, this.dest.getValue(), 
 											this.srcVal, this.pc);
-			this.dest = null;	
-			this.instruction = this.instructionQueue.poll();
-			this.pc = this.pcQueue.poll();
-		}
-		this.tInstance.start();
+			this.dest = null;
+			this.op = Operation.NULL;
+		} 
 	}
 
 	public static Decode getInstance(){
@@ -141,6 +137,7 @@ public class Decode implements Runnable{
 	}
 
 	public void setInstruction(String instruction[], int pc){
+		if(instruction == null) return;
 		this.instructionQueue.add(instruction);
 		this.pcQueue.add(pc);
 	}

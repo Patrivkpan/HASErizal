@@ -52,11 +52,7 @@ public class Execute implements Runnable{
 	public void start(){		
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
-		if(this.ready){
-			this.memory.setDestValue(this.dest, this.ans, this.pc);
-			this.ready = false;
-		}
-
+		
 		this.tInstance.start();
 	}
 
@@ -68,6 +64,13 @@ public class Execute implements Runnable{
 		this.op1 = op1;
 		this.op2 = op2;
     }
+
+	public void setNext(){
+		if(this.ready){
+			this.memory.setDestValue(this.dest, this.ans, this.pc);
+			this.ready = false;
+		}
+	}
 
 	public Thread getThreadInstance(){
 		return this.tInstance;

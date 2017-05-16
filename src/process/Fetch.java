@@ -39,7 +39,6 @@ public class Fetch implements Runnable{
 		if(this.decode.isStalling() || this.end)
 			return;
 
-		this.decode.setInstruction(instruction, mar.getValue());
 		this.tInstance.start();
 	}
 
