@@ -1,5 +1,6 @@
 package process;
 import util.Register;
+import java.util.ArrayDeque;
 
 
 public class Decode implements Runnable{
@@ -9,6 +10,9 @@ public class Decode implements Runnable{
 	
 	private String firstUseOfDestRegister, firstUseOfSrcRegister;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
+
+	private ArrayDeque<String[]> instructionQueue;
+	private ArrayDeque<Integer> pcQueue;
 	
 	private Register dest, src;
 	private Execute execute;
@@ -26,7 +30,7 @@ public class Decode implements Runnable{
 	@Override
 	public void run(){
 		this.stalling = false; 
-		if(this.instruction == null) return;	
+		if(this.instruction == null) return;
 
 		this.dest = 	Register.getRegister(instruction[1]);
 		this.src  =  Register.getRegister(instruction[2]);
@@ -114,7 +118,9 @@ public class Decode implements Runnable{
 		if(this.dest != null && !this.isStalling()) {
 			this.execute.setDestOperands(this.op, this.dest, this.dest.getValue(), 
 											this.srcVal, this.pc);
-			this.dest = null;
+			this.dest = null;	
+			this.instruction = this.instructionQueue.poll();
+			this.pc = this.pcQueue.poll();
 		}
 		this.tInstance.start();
 	}
@@ -135,7 +141,7 @@ public class Decode implements Runnable{
 	}
 
 	public void setInstruction(String instruction[], int pc){
-		this.instruction = instruction;
-		this.pc = pc;
+		this.instructionQueue.add(instruction);
+		this.pcQueue.add(pc);
 	}
 }

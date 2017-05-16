@@ -5,11 +5,12 @@ public class Writeback implements Runnable{
 	private static Writeback instance;
 	private Thread tInstance;
 	private int value, pc, lines;
-	private Register dest;
+	private Register dest, of;
 	private boolean done;
 	
 	private Writeback(){
 		this.done = false;
+		this.of = Register.getRegister("OF");
 		this.pc = -1;
 	}
 	
@@ -22,6 +23,7 @@ public class Writeback implements Runnable{
 		this.dest.setBusy(false);
 		this.dest = null;
 
+		this.of.setValue(0);
 		if(this.pc == lines-1) this.done = true;
 	}	
 
