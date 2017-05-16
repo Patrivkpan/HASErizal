@@ -8,7 +8,6 @@ public class Decode implements Runnable{
 	private static Decode instance;
 	private Thread tInstance;
 	
-	private String firstUseOfDestRegister, firstUseOfSrcRegister;
 	private String instruction[]; // 0 operator, 1 and 2 are the operands
 
 	private ArrayDeque<String[]> instructionQueue;
@@ -38,13 +37,13 @@ public class Decode implements Runnable{
 		this.dest = 	Register.getRegister(instruction[1]);
 		this.src  =  	Register.getRegister(instruction[2]);
 
-
-		if(this.stalling){
+		
+		System.out.println(instruction[1] + " " + instruction[2]);
+		if(this.stalling = this.checkHazard(dest, src)){
 			System.out.println("Decode stall " + pc);	
 			return;
 		}
 		
-		this.stalling = this.checkHazard(dest, src);
 
 		System.out.println("Decoding " + pc);
 		this.dest.setOperand("dest");

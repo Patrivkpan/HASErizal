@@ -27,8 +27,10 @@ public class Fetch implements Runnable{
 		this.pc.setValue(pc.getValue() + 1);
 
 		this.instruction = this.memory.getInstruction(mar.getValue());
-		if(this.instruction == null)
+		if(this.instruction == null){
 			this.end = true;
+			return;
+		}
 		System.out.println("Fetching " + mar.getValue());
 	}
 
@@ -43,7 +45,10 @@ public class Fetch implements Runnable{
 	}
 
 	public void setNext(){
-		this.decode.setInstruction(this.instruction, mar.getValue());		
+		if(this.instruction!= null){
+			this.decode.setInstruction(this.instruction, mar.getValue());
+			this.instruction = null;
+		}
 	}
 
 	public Thread getThreadInstance(){
