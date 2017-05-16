@@ -1,16 +1,26 @@
 package process;
 import util.Register;
+import java.util.ArrayDeque;
 
 public class Execute implements Runnable{
 	private static Execute instance;
 	private Thread tInstance;
+	private Memory memory;
+		
 	private Operation operation;
 	private int op1, op2, pc, ans;
 	private Register dest;
-	private Memory memory;
+
+	private ArrayDeque<Operation> opQueue;
+	private ArrayDeque<Integer[]> intQueue;
+	private ArrayDeque<Register> destQueue;
+
 	private boolean ready;
 	
 	private Execute(){
+		this.opQueue = new ArrayDeque<Operation>();
+		this.intQueue = new ArrayDeque<Integer[]>();
+		this.destQueue = new ArrayDeque<Register>();
 		this.operation = Operation.NULL;
 		this.memory = Memory.getInstance();
 		this.ready = false;
@@ -19,7 +29,16 @@ public class Execute implements Runnable{
 	public void run(){
 		this.ans = 0;
 
-		if(this.operation == Operation.NULL) return;
+		if(this.opQueue.peek() == Operation.NULL || this.opQueue.peek() == null) 
+			return;
+		this.operation = this.opQueue.poll();
+		this.dest = this.destQueue.poll();
+
+		Integer operands[] = this.intQueue.poll();
+		this.op1 = operands[0];
+		this.op2 = operands[1];
+		this.pc = operands[2];
+
 		System.out.println("Executing " + pc);
 		switch(this.operation){
 			case NULL:
@@ -58,11 +77,11 @@ public class Execute implements Runnable{
 
 	public void setDestOperands(Operation operation, Register dest, 
 								int op1, int op2, int pc){
-		this.pc = pc;
-		this.operation = operation;
-		this.dest = dest;
-		this.op1 = op1;
-		this.op2 = op2;
+		Integer operands[] = {op1, op2, pc};
+
+		this.intQueue.add(operands);
+		this.opQueue.add(operation);
+		this.destQueue.add(dest);
     }
 
 	public void setNext(){
