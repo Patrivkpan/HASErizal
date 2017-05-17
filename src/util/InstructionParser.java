@@ -1,6 +1,7 @@
 package util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Vector;
 
 
 /**
@@ -29,6 +30,11 @@ public class InstructionParser {
 		else
 			throw new InstructionSyntaxException(lineNumber);
 
+		Vector<String> resultVector = new Vector<String>();
+		resultVector.add(result[0]);
+		resultVector.add(result[1]);
+		resultVector.add(result[2]);
+		FDEMW_Table.getInstance().getTable().add(resultVector);
 		return this.result;
 	}
 

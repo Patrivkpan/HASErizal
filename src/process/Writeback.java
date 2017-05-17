@@ -2,14 +2,14 @@ package process;
 
 import util.Clock;
 import util.Register;
-
+import util.FDEMW_Table;
 import java.util.ArrayDeque;
 
 public class Writeback implements Runnable{
 	private static Writeback instance;
 	private Thread tInstance;
 
-	private int value, pc, lines;
+	private int value, pc, lines, clock, numInst=0;
 	private Register dest, of;
 
 	private ArrayDeque<Integer[]> intQueue;
@@ -29,6 +29,7 @@ public class Writeback implements Runnable{
 	public void run(){
 		if(this.destQueue.peek() == null) return;
 
+		this.clock = Clock.getInstance().getCycle();
 		this.dest = this.destQueue.poll();
 		if(this.isStalling = this.dest.getSrc()){
 			System.out.println("Writeback stall " + this.dest.getName());
@@ -44,6 +45,9 @@ public class Writeback implements Runnable{
 		this.dest.setValue(this.value);
 
 		this.of.setValue(0);
+
+		FDEMW_Table.getInstance().getTable().get(numInst).set(clock+2,"W");
+		this.numInst++;
 		if(this.pc == lines-1) this.done = true;
 	}	
 
@@ -80,8 +84,10 @@ public class Writeback implements Runnable{
 	}
 
 	public void setFree(){
-		if(this.dest != null)
+		if(this.dest != null){
 			this.dest.setBusy(false);
+			this.dest = null;
+		}
 	}
 
 	public static Writeback getInstance(){

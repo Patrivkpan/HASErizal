@@ -9,6 +9,7 @@ import util.InstructionFileReader;
 import util.InstructionParser;
 import util.InstructionMemory;
 import util.Clock;
+import util.FDEMW_Table;
 
 import process.Fetch;
 import process.Decode;
@@ -56,7 +57,7 @@ public class Main {
 
 			System.out.println("===========================\n");
 			try{
-				Thread.sleep(1000);
+				//Thread.sleep(1000);
 			} catch(Exception ex){}
 		} while(!w.isDone());
 		System.out.println("Stalls: " + c.getStalls());
@@ -72,6 +73,8 @@ public class Main {
 		catch(Exception exc) { 
 			System.out.println(exc.getMessage()); 
 		}
+		FDEMW_Table.getInstance().writeTable();
+		FDEMW_Table.getInstance().printTable();
 	}
 
 }

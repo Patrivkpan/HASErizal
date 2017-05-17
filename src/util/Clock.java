@@ -38,6 +38,7 @@ public class Clock implements Runnable{
             catch(Exception e){e.printStackTrace();}
         }
         this.cycle++;
+        FDEMW_Table.getInstance().addEmptyColumn();
     }
 
 	public void start(){
@@ -54,9 +55,10 @@ public class Clock implements Runnable{
 	}
 
     public static Clock getInstance(){
-        if(Clock.instance == null)
-            Clock.instance = new Clock(1);
-
+        if(Clock.instance == null){
+            Clock.instance = new Clock(1);        
+            FDEMW_Table.getInstance().addEmptyColumn();
+        }
         return Clock.instance;
     }
 
