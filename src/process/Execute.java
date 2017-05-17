@@ -36,7 +36,7 @@ public class Execute implements Runnable{
 		this.operation = this.opQueue.poll();
 		this.dest = this.destQueue.poll();
 
-		Clock.getInstance().addStalls(destQueue.size());
+		if(destQueue.size() > 0) Clock.getInstance().addStalls(1);
 
 		Integer operands[] = this.intQueue.poll();
 		this.op1 = operands[0];

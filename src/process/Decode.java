@@ -38,11 +38,9 @@ public class Decode implements Runnable{
 	public void run(){
 		this.stalling = false; 
 		if(this.instruction == null) return;
-		Clock.getInstance().addStalls(pcQueue.size());
 
 		this.dest = 	Register.getRegister(instruction[1]);
 		this.src  =  	Register.getRegister(instruction[2]);
-
 		
 		if(this.stalling = this.checkHazard(dest, src)){
 			System.out.println("Decode stall " + pc);
@@ -50,8 +48,9 @@ public class Decode implements Runnable{
 			return;
 		}
 		
+		if(pcQueue.size() > 0) Clock.getInstance().addStalls(1);
 
-		System.out.println("Decoding " + pc);
+		System.out.println("Decoding " + pc + " " + dest.getName());
 		this.dest.setOperand("dest");
 		this.dest.setBusy(true);
 		
@@ -98,9 +97,6 @@ public class Decode implements Runnable{
 					writer.append("Total of WAR Hazard: " + war+"\n\n");
 					writer.close(); 
 				}
-				catch(IOException e) { 
-			
-				}
 				catch(Exception e) { 
 					System.out.println(e.getMessage()); 
 				}
@@ -112,9 +108,6 @@ public class Decode implements Runnable{
 					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
 					writer.append("Total of WAW Hazard: " + waw+"\n\n");
 					writer.close(); 
-				}
-				catch(IOException e) { 
-			
 				}
 				catch(Exception e) { 
 					System.out.println(e.getMessage()); 
@@ -130,9 +123,6 @@ public class Decode implements Runnable{
 				BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
 				writer.append("Total of RAW Hazard: " + raw+"\n\n");
 				writer.close(); 
-			}
-			catch(IOException e) { 
-		
 			}
 			catch(Exception e) { 
 				System.out.println(e.getMessage()); 

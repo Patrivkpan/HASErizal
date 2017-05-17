@@ -34,7 +34,7 @@ public class Memory implements Runnable{
 
 		this.dest = this.destQueue.poll();
 
-		Clock.getInstance().addStalls(destQueue.size());
+		if(destQueue.size() > 0) Clock.getInstance().addStalls(1);
 		System.out.println("Memory-ing " + pc + " " + answer);
 
 		this.sDest = this.dest;
