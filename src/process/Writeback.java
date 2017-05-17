@@ -45,8 +45,7 @@ public class Writeback implements Runnable{
 	public void start(){
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
-		if(this.dest != null)
-			this.dest.setBusy(false);
+
 		this.tInstance.start();
 	}
 
@@ -72,6 +71,9 @@ public class Writeback implements Runnable{
 
 		this.intQueue.add(ops);
 		this.destQueue.add(dest);
+		
+		if(this.dest != null)
+			this.dest.setBusy(false);
 	}
 
 	public static Writeback getInstance(){
