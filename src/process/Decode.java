@@ -43,7 +43,7 @@ public class Decode implements Runnable{
 		this.src  =  	Register.getRegister(instruction[2]);
 		
 		if(this.stalling = this.checkHazard(dest, src)){
-			System.out.println("Decode stall " + pc);
+			System.out.println("Decode stall " + pc + " " + dest.getName());
 			Clock.getInstance().addStalls(1);
 			return;
 		}

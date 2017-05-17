@@ -35,6 +35,7 @@ public class Main {
 		do{
 			System.out.println("Cycle: " + c.getCycle());
 
+			w.setFree();
 			m.setNext();
 			e.setNext();
 			d.setNext();
