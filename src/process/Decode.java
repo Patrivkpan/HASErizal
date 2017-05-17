@@ -45,7 +45,7 @@ public class Decode implements Runnable{
 		clock=Clock.getInstance().getCycle();
 		
 		if(this.stalling = this.checkHazard(dest, src)){
-			System.out.println("Decode stall " + pc);
+			System.out.println("Decode stall " + pc + " " + dest.getName());
 			Clock.getInstance().addStalls(1);
 			return;
 		}

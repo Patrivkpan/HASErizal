@@ -36,6 +36,7 @@ public class Main {
 		do{
 			System.out.println("Cycle: kek" + c.getCycle());
 
+			w.setFree();
 			m.setNext();
 			e.setNext();
 			d.setNext();

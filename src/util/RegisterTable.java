@@ -17,7 +17,7 @@ public class RegisterTable{
 			BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
 			
 			writer.append("===========================\n");
-			writer.append("Clock:" + Register.getRegister("PC").getValue() + "\n");
+			writer.append("Clock:" + Clock.getInstance().getCycle() + "\n");
 			for(int j = 1; j < 33; j++){
 	            name = "R" + j;
 		        writer.append(Register.getRegister(name).getName() + ": " + Register.getRegister(name).getValue());

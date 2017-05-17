@@ -35,7 +35,7 @@ public class Writeback implements Runnable{
 		this.pc = ops[1];
 
 		if(destQueue.size() > 0) Clock.getInstance().addStalls(1);
-		System.out.println("Writing " + pc);
+		System.out.println("Writing " + pc + " " + dest.getName());
 		this.dest.setValue(this.value);
 
 		this.of.setValue(0);
@@ -75,6 +75,9 @@ public class Writeback implements Runnable{
 		this.intQueue.add(ops);
 		this.destQueue.add(dest);
 		
+	}
+
+	public void setFree(){
 		if(this.dest != null)
 			this.dest.setBusy(false);
 	}
