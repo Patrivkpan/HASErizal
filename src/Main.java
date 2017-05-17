@@ -34,7 +34,7 @@ public class Main {
 		w.setLines(lines);
 
 		do{
-			System.out.println("Cycle: kek" + c.getCycle());
+			System.out.println("Cycle: " + c.getCycle());
 
 			w.setFree();
 			m.setNext();
@@ -70,6 +70,7 @@ public class Main {
 		catch(Exception exc) { 
 			System.out.println(exc.getMessage()); 
 		}
+		FDEMW_Table.getInstance().writeTable();
 		FDEMW_Table.getInstance().printTable();
 	}
 

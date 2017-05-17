@@ -1,6 +1,9 @@
 package util;
 
 import java.util.Vector;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class FDEMW_Table{
 	private static FDEMW_Table instance;
@@ -57,5 +60,39 @@ public class FDEMW_Table{
 			table.get(i).add(" ");
 		}
 	}
+	public void writeTable(){
+		int cycles = Clock.getInstance().getCycle();
+		this.putStalls();
+		try{
+			BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+			writer.append("=========================================\n\nFDEMW Table\n\n");
+			writer.append("INSTRUCTIONS   | ");
+			for (int i=0; i<cycles-1 ; i++) {
+				if(i<9) writer.append(i+1+" | ");
+				else writer.append(i+1+"| ");
+			}
+			writer.append("\n");
+			for (int i=0; i<table.size() ; i++) {
+				Vector<String> tableRow = table.get(i);
+				for (int j=0; j<tableRow.size()-1; j++ ) {
+					writer.append(tableRow.get(j));
+					if( (tableRow.get(j).length() < 4 && j == 0) || (tableRow.get(j).length()==1 && j==2 )  ) writer.append("  | ");
+					else writer.append(" | ");
 
+				}
+				writer.append("\n");
+			}
+
+			writer.append("\n");
+			writer.close(); 
+
+		}
+		catch(IOException exc) { 
+	
+		}
+		catch(Exception exc) { 
+			System.out.println(exc.getMessage()); 
+		}
+	}
 }
+

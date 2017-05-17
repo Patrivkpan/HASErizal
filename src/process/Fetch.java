@@ -34,7 +34,7 @@ public class Fetch implements Runnable{
 			this.end = true;
 			return;
 		}
-		System.out.println("Fetching lul " + mar.getValue());
+		System.out.println("Fetching " + mar.getValue());
 		clock= Clock.getInstance().getCycle();
 		FDEMW_Table.getInstance().getTable().get(mar.getValue()).set(clock+2,"F");
 	}
