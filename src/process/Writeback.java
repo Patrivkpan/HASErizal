@@ -15,7 +15,7 @@ public class Writeback implements Runnable{
 	private ArrayDeque<Integer[]> intQueue;
 	private ArrayDeque<Register> destQueue;
 
-	private boolean done;
+	private boolean done, isStalling;
 	
 	private Writeback(){
 		this.done = false;
@@ -29,8 +29,13 @@ public class Writeback implements Runnable{
 	public void run(){
 		if(this.destQueue.peek() == null) return;
 
-		Integer ops[] = this.intQueue.poll();
 		this.dest = this.destQueue.poll();
+		if(this.isStalling = this.dest.getSrc()){
+			System.out.println("Writeback stall " + this.dest.getName());
+			return;
+		}
+
+		Integer ops[] = this.intQueue.poll();
 		this.value = ops[0];
 		this.pc = ops[1];
 

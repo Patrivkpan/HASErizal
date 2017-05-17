@@ -55,6 +55,9 @@ public class Main {
 
 
 			System.out.println("===========================\n");
+			try{
+				Thread.sleep(1000);
+			} catch(Exception ex){}
 		} while(!w.isDone());
 		System.out.println("Stalls: " + c.getStalls());
 		System.out.println("Clock Cycles: " + (c.getCycle() - 1));

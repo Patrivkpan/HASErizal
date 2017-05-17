@@ -56,6 +56,9 @@ public class Decode implements Runnable{
 		
 		if(this.src != null){
 			this.src.setOperand("src");
+			if(!this.src.getSrc())
+				this.src.reqSrc();
+			System.out.println("Requests src: " + this.src.getName());
 			this.src.setBusy(true);
 		}
 
@@ -89,31 +92,29 @@ public class Decode implements Runnable{
 		// Hazard checking
 
 		if (dest.getBusy()) {
-			if(dest.getOperand() == "src"){
-				war++;
-				System.out.println("WAR Hazard");
-				try{
-					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
-					writer.append("Total of WAR Hazard: " + war+"\n\n");
-					writer.close(); 
-				}
-				catch(Exception e) { 
-					System.out.println(e.getMessage()); 
-				}
+			waw++;
+			System.out.println("WAW Hazard");
+			try{
+				BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+				writer.append("Total of WAW Hazard: " + waw+"\n\n");
+				writer.close(); 
 			}
-			else{
-				waw++;
-				System.out.println("WAW Hazard");
-				try{
-					BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
-					writer.append("Total of WAW Hazard: " + waw+"\n\n");
-					writer.close(); 
-				}
-				catch(Exception e) { 
-					System.out.println(e.getMessage()); 
-				}
+			catch(Exception e) { 
+				System.out.println(e.getMessage()); 
 			}
 			return true;
+		} else if(dest.getOperand() == "src"){
+			war++;
+			System.out.println("WAR Hazard");
+			try{
+				BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
+				writer.append("Total of WAR Hazard: " + war+"\n\n");
+				writer.close(); 
+			}
+			catch(Exception e) { 
+				System.out.println(e.getMessage()); 
+			}
+			dest.setOperand("dest");
 		}
 
 		if (src != null && src.getBusy() && src.getOperand()=="dest") {
@@ -152,6 +153,10 @@ public class Decode implements Runnable{
 			this.dest = null;
 			this.op = Operation.NULL;
 		} 
+		if(this.src != null && this.src.getSrc()){
+			System.out.println("Removes request src: " + this.src.getName());
+			this.src.reqSrc();
+		}
 	}
 
 	public static Decode getInstance(){

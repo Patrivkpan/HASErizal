@@ -7,12 +7,14 @@ public class Register{
     private String name;
     private int value;
     private boolean isBusy;
+    private boolean src;
     private String operand;
 
     private Register(String name, int value){
         this.name = name;
         this.value = value;
         this.isBusy = false;
+        this.src = false;
     }
 
     /* Gets a specific register, returns null if register with that name doesn't exist' */
@@ -75,6 +77,13 @@ public class Register{
         }
     }
 
+    public void reqSrc(){
+        this.src = !this.src;
+    }
+
+    public boolean getSrc(){
+        return this.src;
+    }
     public void setOperand(String value){
         this.operand=value;
     }
