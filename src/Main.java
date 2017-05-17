@@ -9,6 +9,7 @@ import util.InstructionFileReader;
 import util.InstructionParser;
 import util.InstructionMemory;
 import util.Clock;
+import util.FDEMW_Table;
 
 import process.Fetch;
 import process.Decode;
@@ -33,7 +34,7 @@ public class Main {
 		w.setLines(lines);
 
 		do{
-			System.out.println("Cycle: " + c.getCycle());
+			System.out.println("Cycle: kek" + c.getCycle());
 
 			m.setNext();
 			e.setNext();
@@ -68,6 +69,7 @@ public class Main {
 		catch(Exception exc) { 
 			System.out.println(exc.getMessage()); 
 		}
+		FDEMW_Table.getInstance().printTable();
 	}
 
 }

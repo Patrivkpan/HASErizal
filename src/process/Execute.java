@@ -1,7 +1,7 @@
 package process;
 import util.Clock;
 import util.Register;
-
+import util.FDEMW_Table;
 import java.util.ArrayDeque;
 
 public class Execute implements Runnable{
@@ -10,7 +10,7 @@ public class Execute implements Runnable{
 	private Memory memory;
 		
 	private Operation operation;
-	private int op1, op2, pc, ans;
+	private int op1, op2, pc, ans, clock, numInst=0;
 	private Register dest;
 
 	private ArrayDeque<Operation> opQueue;
@@ -26,11 +26,12 @@ public class Execute implements Runnable{
 		this.operation = Operation.NULL;
 		this.memory = Memory.getInstance();
 		this.ready = false;
+		
 	}
 
 	public void run(){
 		this.ans = 0;
-
+		this.clock = Clock.getInstance().getCycle();
 		if(this.opQueue.peek() == Operation.NULL || this.opQueue.peek() == null) 
 			return;
 		this.operation = this.opQueue.poll();
@@ -70,6 +71,8 @@ public class Execute implements Runnable{
 		}
 		this.ready = true;
 		this.operation = Operation.NULL;
+		FDEMW_Table.getInstance().getTable().get(numInst).set(clock+2,"E");
+		this.numInst++;
 	}
 
 	public void start(){		

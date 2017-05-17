@@ -1,6 +1,7 @@
 package process;
 
 import util.Clock;
+import util.FDEMW_Table;
 import util.Register;
 
 import java.util.ArrayDeque;
@@ -9,7 +10,7 @@ public class Memory implements Runnable{
 	private static Memory instance;
 	private Thread tInstance;
 
-	private int answer, pc;
+	private int answer, pc, clock, numInst=0;
 	private Register dest, sDest;
 
 	private ArrayDeque<Integer[]> intQueue;
@@ -27,7 +28,7 @@ public class Memory implements Runnable{
 	@Override
 	public void run(){
 		if(this.destQueue.peek() == null) return;
-
+		this.clock = Clock.getInstance().getCycle();
 		Integer ops[] = this.intQueue.poll();
 		this.answer = ops[0];
 		this.pc = ops[1];
@@ -39,6 +40,8 @@ public class Memory implements Runnable{
 
 		this.sDest = this.dest;
 		this.dest = null;
+		FDEMW_Table.getInstance().getTable().get(numInst).set(clock+2,"M");
+		this.numInst++;
 	}
 
 	public void start(){

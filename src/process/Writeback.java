@@ -2,14 +2,14 @@ package process;
 
 import util.Clock;
 import util.Register;
-
+import util.FDEMW_Table;
 import java.util.ArrayDeque;
 
 public class Writeback implements Runnable{
 	private static Writeback instance;
 	private Thread tInstance;
 
-	private int value, pc, lines;
+	private int value, pc, lines, clock, numInst=0;
 	private Register dest, of;
 
 	private ArrayDeque<Integer[]> intQueue;
@@ -28,7 +28,7 @@ public class Writeback implements Runnable{
 	@Override
 	public void run(){
 		if(this.destQueue.peek() == null) return;
-
+		this.clock = Clock.getInstance().getCycle();
 		Integer ops[] = this.intQueue.poll();
 		this.dest = this.destQueue.poll();
 		this.value = ops[0];
@@ -39,6 +39,9 @@ public class Writeback implements Runnable{
 		this.dest.setValue(this.value);
 
 		this.of.setValue(0);
+
+		FDEMW_Table.getInstance().getTable().get(numInst).set(clock+2,"W");
+		this.numInst++;
 		if(this.pc == lines-1) this.done = true;
 	}	
 

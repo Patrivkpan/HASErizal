@@ -2,6 +2,7 @@ package process;
 import util.Clock;
 import util.Register;
 import util.InstructionMemory;
+import util.FDEMW_Table;
 
 public class Fetch implements Runnable{
 
@@ -12,6 +13,7 @@ public class Fetch implements Runnable{
 	private Register pc, mar;
 	private String instruction[];
 	private boolean end;
+	private int numInst=0,clock;
 	
 	private Fetch(){
 		this.memory = InstructionMemory.getInstance();
@@ -32,13 +34,15 @@ public class Fetch implements Runnable{
 			this.end = true;
 			return;
 		}
-		System.out.println("Fetching " + mar.getValue());
+		System.out.println("Fetching lul " + mar.getValue());
+		clock= Clock.getInstance().getCycle();
+		FDEMW_Table.getInstance().getTable().get(mar.getValue()).set(clock+2,"F");
 	}
 
 	public void start(){
-		if(this.end)
+		if(this.end){
 			return;
-
+		}
 		if(this.tInstance == null || !this.tInstance.isAlive())
 			this.tInstance = new Thread(this);
 
@@ -47,6 +51,8 @@ public class Fetch implements Runnable{
 
 	public void setNext(){
 		if(this.instruction!= null){
+
+
 			this.decode.setInstruction(this.instruction, mar.getValue());
 			this.instruction = null;
 		}

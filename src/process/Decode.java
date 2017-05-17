@@ -1,6 +1,7 @@
 package process;
 import util.Clock;
 import util.Register;
+import util.FDEMW_Table;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Decode implements Runnable{
 	
 	private boolean stalling;
 	private Operation op;
-	private int pc, srcVal, war, raw, waw;
+	private int pc, srcVal, war, raw, waw,clock,numInst=0;
 
 
 	private Decode(){
@@ -35,25 +36,27 @@ public class Decode implements Runnable{
 	}
 
 	@Override
-	public void run(){
+	public void run(){		
 		this.stalling = false; 
 		if(this.instruction == null) return;
 
 		this.dest = 	Register.getRegister(instruction[1]);
 		this.src  =  	Register.getRegister(instruction[2]);
+		clock=Clock.getInstance().getCycle();
 		
 		if(this.stalling = this.checkHazard(dest, src)){
 			System.out.println("Decode stall " + pc);
 			Clock.getInstance().addStalls(1);
 			return;
 		}
-		
-		if(pcQueue.size() > 0) Clock.getInstance().addStalls(1);
-
+	
+		if(pcQueue.size() > 0) {
+			Clock.getInstance().addStalls(1);
+		}
 		System.out.println("Decoding " + pc + " " + dest.getName());
+		
 		this.dest.setOperand("dest");
 		this.dest.setBusy(true);
-		
 		if(this.src != null){
 			this.src.setOperand("src");
 			this.src.setBusy(true);
@@ -83,6 +86,8 @@ public class Decode implements Runnable{
 			this.src.setBusy(false);
 		}
 		this.instruction = null;
+		FDEMW_Table.getInstance().getTable().get(numInst).set(clock+2,"D");
+		this.numInst++;
 	}
 
 	public boolean checkHazard(Register dest, Register src){
