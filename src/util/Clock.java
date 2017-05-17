@@ -33,11 +33,11 @@ public class Clock implements Runnable{
 
     @Override
     public void run(){
-        this.cycle++;
         for(Thread t : this.processes){
             try{t.join();}
             catch(Exception e){e.printStackTrace();}
         }
+        this.cycle++;
     }
 
 	public void start(){
@@ -55,7 +55,7 @@ public class Clock implements Runnable{
 
     public static Clock getInstance(){
         if(Clock.instance == null)
-            Clock.instance = new Clock(0);
+            Clock.instance = new Clock(1);
 
         return Clock.instance;
     }

@@ -56,7 +56,7 @@ public class Main {
 			System.out.println("===========================\n");
 		} while(!w.isDone());
 		System.out.println("Stalls: " + c.getStalls());
-		System.out.println("Clock Cycles: " + c.getCycle());
+		System.out.println("Clock Cycles: " + (c.getCycle() - 1));
 		try{
 			BufferedWriter writer = new BufferedWriter(new FileWriter("FDEMW.txt", true));
 			writer.append("Total Stalls: " + c.getStalls()+"\n\n");
